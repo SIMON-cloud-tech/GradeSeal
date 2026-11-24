@@ -3,7 +3,7 @@ const Batch = require('../models/Batch');
 const PDFDocument = require('pdfkit');
 const { generateQR } = require('../utils/qrGenerator');
 const { signCoa } = require('../utils/coaSigner');
-const { uploadPdfToCloudinary } = require('../utils/cloudinaryUpload');
+const { uploadPdfToCloudinary } = require('../utils/uploadToCloudinary');
 const { asyncHandler, throwError } = require('../utils/errorHandler');
 
 // Fixed order + labels, so blank values print as "—" instead of "undefined"

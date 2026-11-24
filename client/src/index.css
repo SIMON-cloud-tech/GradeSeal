@@ -1,204 +1,484 @@
-/* ──────────────────────────────────────────────────────────────
-   src/index.css
-   GradeSeal — Global Design Tokens & Theme
-   Palette: Green (primary) · Glassy (surfaces) · Light Brown · Amber
-   ────────────────────────────────────────────────────────────── */
+/* ════════════════════════════════════════════════════════════════════════
+   src/index.css  ·  GradeSeal design tokens + base styles
+   ────────────────────────────────────────────────────────────────────────
+   Palette:  GREEN  (actions, success, brand)
+             LIGHT BROWN (surfaces, borders, secondary, "Printed" status)
+             AMBER  (highlights, active nav, warnings)
+             GLASS  (frosted translucent surfaces over a soft gradient)
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+   Import this file FIRST in main.jsx:   import './index.css';
 
-/* ══════════════════════════════════════════════════════════════
-   LIGHT THEME (DEFAULT)
-   ══════════════════════════════════════════════════════════════ */
+   Theme switching works with any of these (no JS changes needed):
+     <html data-theme="dark"> · <div data-theme="dark"> · <div class="dashboard dark">
+   Light is the default.
+
+   How the tokens are layered:
+     1. Primitives     raw colour scales (never change per theme)
+     2. Semantic       --text, --surface-card, --color-primary ... (light, then dark)
+     3. Legacy aliases --bm-*, --color-*, --vp-*  so existing CSS files keep working
+     4. Base + glass   resets, typography, frosted-glass skin
+   Use semantic tokens in new CSS. Never use primitives (--green-600) inside components.
+   ════════════════════════════════════════════════════════════════════════ */
+
+
+/* ═══════════════════════════════════════════════
+   1. PRIMITIVES
+   ═══════════════════════════════════════════════ */
 :root {
-  /* ── Brand: Green (Primary) ── */
-  --gs-green-50:       #f0fdf4;
-  --gs-green-100:      #dcfce7;
-  --gs-green-200:      #bbf7d0;
-  --gs-green-500:      #22c55e;
-  --gs-green-600:      #16a34a;
-  --gs-green-700:      #15803d;
-  --gs-green-800:      #166534;
-  --gs-green-900:      #14532d;
+  /* Green: leaf → forest */
+  --green-50:  #f1f8f3;
+  --green-100: #ddefe2;
+  --green-200: #bddfc7;
+  --green-300: #92c9a3;
+  --green-400: #5fae79;
+  --green-500: #3d9159;
+  --green-600: #2d7746;
+  --green-700: #265f3a;
+  --green-800: #214c31;
+  --green-900: #193a26;
+  --green-950: #0d2217;
 
-  /* ── Brand: Light Brown ── */
-  --gs-brown-50:       #fdf8f6;
-  --gs-brown-100:      #f3eae3;
-  --gs-brown-200:      #e6d2c4;
-  --gs-brown-400:      #b7967b;
-  --gs-brown-600:      #8b6b52;
-  --gs-brown-800:      #5c4535;
+  /* Light brown: cream → latte → bark */
+  --brown-50:  #fbf7f1;
+  --brown-100: #f4ece0;
+  --brown-200: #e7d8c3;
+  --brown-300: #d8bf9f;
+  --brown-400: #c5a47c;
+  --brown-500: #ae865c;
+  --brown-600: #93694a;
+  --brown-700: #77543c;
+  --brown-800: #5c4231;
+  --brown-900: #43302a;
+  --brown-950: #271b16;
 
-  /* ── Brand: Amber ── */
-  --gs-amber-50:       #fffbeb;
-  --gs-amber-100:      #fef3c7;
-  --gs-amber-200:      #fde68a;
-  --gs-amber-400:      #fbbf24;
-  --gs-amber-500:      #f59e0b;
-  --gs-amber-600:      #d97706;
-  --gs-amber-800:      #92400e;
+  /* Amber */
+  --amber-50:  #fffbeb;
+  --amber-100: #fef3c7;
+  --amber-200: #fde68a;
+  --amber-300: #fcd34d;
+  --amber-400: #fbbf24;
+  --amber-500: #f59e0b;
+  --amber-600: #d97706;
+  --amber-700: #b45309;
+  --amber-800: #92400e;
+  --amber-900: #78350f;
 
-  /* ── Semantic: Danger / Info (for statuses) ── */
-  --gs-red-100:        #fee2e2;
-  --gs-red-500:        #ef4444;
-  --gs-red-600:        #dc2626;
-  --gs-red-800:        #991b1b;
-
-  --gs-blue-100:       #e0e7ff;
-  --gs-blue-600:       #2563eb;
-  --gs-blue-800:       #3730a3;
-
-  /* ── Base Layout Colors ── */
-  --gs-bg-page:        #f8faf9;          /* Very subtle green-tinged background */
-  --gs-bg-card:        #ffffff;          /* Card surface */
-  --gs-bg-input:       #f9fafb;
-  --gs-bg-hover:       #f3f4f6;
-  --gs-bg-glass:       rgba(255, 255, 255, 0.75);   /* Glass overlay */
-  --gs-bg-glass-dark:  rgba(22, 33, 27, 0.55);      /* Darker glass */
-
-  /* ── Text ── */
-  --gs-text:           #1f2937;
-  --gs-text-muted:     #6b7280;
-  --gs-text-inverse:   #ffffff;
-
-  /* ── Borders ── */
-  --gs-border:         #e5e7eb;
-  --gs-border-strong:  #d1d5db;
-
-  /* ── Primary Accent (Green) ── */
-  --gs-accent:         #16a34a;
-  --gs-accent-hover:   #15803d;
-  --gs-accent-text:    #ffffff;
-
-  /* ── Status Colors ── */
-  --gs-ok-bg:          #dcfce7;   --gs-ok-text:    #166534;
-  --gs-warn-bg:        #fef3c7;   --gs-warn-text:  #92400e;
-  --gs-bad-bg:         #fee2e2;   --gs-bad-text:   #991b1b;
-  --gs-info-bg:        #e0e7ff;   --gs-info-text:  #3730a3;
-
-  /* ── Glass Effects ── */
-  --gs-glass-blur:     blur(14px);
-  --gs-glass-shadow:   0 8px 32px rgba(0, 0, 0, 0.08);
-  --gs-glass-border:   rgba(255, 255, 255, 0.35);
-
-  /* ── Radii & Transitions ── */
-  --gs-radius-sm:      6px;
-  --gs-radius:         10px;
-  --gs-radius-lg:      14px;
-  --gs-radius-pill:    30px;
-
-  --gs-transition:     0.25s ease;
-  --gs-transition-slow: 0.4s ease;
-
-  /* ── Elevation / Shadow ── */
-  --gs-shadow-sm:      0 1px 3px rgba(0, 0, 0, 0.06);
-  --gs-shadow:         0 4px 6px -1px rgba(0, 0, 0, 0.05);
-  --gs-shadow-lg:      0 10px 25px -3px rgba(0, 0, 0, 0.1);
+  /* Red: errors and destructive actions only */
+  --red-100: #fee2e2;
+  --red-300: #fca5a5;
+  --red-400: #f87171;
+  --red-500: #ef4444;
+  --red-600: #dc2626;
+  --red-700: #b91c1c;
+  --red-800: #991b1b;
 }
 
-/* ══════════════════════════════════════════════════════════════
-   DARK THEME
-   ══════════════════════════════════════════════════════════════ */
-[data-theme="dark"] {
-  /* ── Layout ── */
-  --gs-bg-page:        #0b1410;           /* Deep forest green-black */
-  --gs-bg-card:        #16211b;           /* Slightly lighter */
-  --gs-bg-input:       #101a15;
-  --gs-bg-hover:       #1d2b23;
-  --gs-bg-glass:       rgba(22, 33, 27, 0.55);
-  --gs-bg-glass-dark:  rgba(11, 20, 16, 0.75);
+
+/* ═══════════════════════════════════════════════
+   2a. SEMANTIC TOKENS: LIGHT (default)
+   ═══════════════════════════════════════════════ */
+:root {
+  color-scheme: light;
+
+  /* ── Surfaces ── */
+  --bg-page:        #f6f1e9;                     /* warm cream */
+  --bg-canvas:                                   /* page background: soft green / amber / brown glow */
+    radial-gradient(900px 520px at 6% -8%,  rgba(95, 174, 121, 0.20), transparent 62%),
+    radial-gradient(760px 460px at 100% 0%, rgba(245, 158, 11, 0.13), transparent 58%),
+    radial-gradient(900px 620px at 55% 115%, rgba(174, 134, 92, 0.20), transparent 62%),
+    var(--bg-page);
+  --surface-card:   rgba(255, 255, 255, 0.74);   /* glass card */
+  --surface-strong: rgba(255, 255, 255, 0.92);   /* glass, nearly opaque (public pages, popovers) */
+  --surface-solid:  #ffffff;                     /* fully opaque */
+  --surface-input:  rgba(251, 247, 241, 0.88);   /* inputs, table headers, sunken areas */
+  --surface-hover:  rgba(174, 134, 92, 0.12);    /* row / button hover */
+  --sidebar-bg:     rgba(255, 255, 255, 0.72);
 
   /* ── Text ── */
-  --gs-text:           #f0f7f2;
-  --gs-text-muted:     #8aa393;
-  --gs-text-inverse:   #0b1410;
+  --text:           #1f2a23;
+  --text-soft:      #46524a;
+  --text-muted:     #6f695b;
+  --text-faint:     #9a9382;                     /* icons, placeholders, disabled */
+  --text-on-primary:#ffffff;
 
   /* ── Borders ── */
-  --gs-border:         rgba(240, 247, 242, 0.08);
-  --gs-border-strong:  rgba(240, 247, 242, 0.18);
+  --border:         rgba(92, 66, 49, 0.14);
+  --border-strong:  rgba(92, 66, 49, 0.28);
+  --border-soft:    rgba(92, 66, 49, 0.08);
+  --glass-border:   rgba(255, 255, 255, 0.70);
 
-  /* ── Primary Accent (Amber in dark mode for contrast) ── */
-  --gs-accent:         #e0a546;
-  --gs-accent-hover:   #c68e34;
-  --gs-accent-text:    #0b1410;
+  /* ── Brand: green (actions) ── */
+  --color-primary:        var(--green-600);
+  --color-primary-hover:  var(--green-700);
+  --color-primary-active: var(--green-800);
+  --color-primary-soft:   var(--green-100);
 
-  /* ── Status Colors (glassy overlays) ── */
-  --gs-ok-bg:          rgba(34, 197, 94, 0.15);   --gs-ok-text:   #6ee7a8;
-  --gs-warn-bg:        rgba(245, 158, 11, 0.15);  --gs-warn-text: #fbbf24;
-  --gs-bad-bg:         rgba(239, 68, 68, 0.15);   --gs-bad-text:  #f87171;
-  --gs-info-bg:        rgba(59, 130, 246, 0.15);  --gs-info-text: #93c5fd;
+  /* ── Highlight: amber (active nav, brand text, warnings) ── */
+  --color-highlight:        var(--amber-700);
+  --color-highlight-hover:  var(--amber-800);
+  --color-highlight-soft:   var(--amber-100);
 
-  /* ── Glass Effects ── */
-  --gs-glass-shadow:   0 8px 32px rgba(0, 0, 0, 0.4);
-  --gs-glass-border:   rgba(240, 247, 242, 0.12);
+  /* ── Secondary: light brown ── */
+  --color-secondary:      var(--brown-500);
+  --color-secondary-soft: var(--brown-100);
+
+  /* ── Status ── */
+  --status-ok-bg:    var(--green-100);   --status-ok-text:   var(--green-800);
+  --status-warn-bg:  var(--amber-100);   --status-warn-text: var(--amber-800);
+  --status-bad-bg:   var(--red-100);     --status-bad-text:  var(--red-800);
+  --status-info-bg:  var(--brown-100);   --status-info-text: var(--brown-800);   /* e.g. "Printed" */
+  --status-danger:   var(--red-600);
+
+  /* ── Effects ── */
+  --focus-ring:     0 0 0 3px rgba(61, 145, 89, 0.28);
+  --overlay:        rgba(28, 38, 31, 0.50);
+  --shadow-sm:      0 1px 3px rgba(60, 44, 30, 0.08);
+  --shadow-md:      0 6px 18px rgba(60, 44, 30, 0.10);
+  --shadow-lg:      0 20px 50px rgba(40, 30, 20, 0.22);
+  --shadow-glass:   0 8px 32px rgba(45, 70, 52, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  --shadow-primary: 0 4px 10px rgba(45, 119, 70, 0.30);
 }
 
-/* ══════════════════════════════════════════════════════════════
-   GLOBAL RESET & BASE
-   ══════════════════════════════════════════════════════════════ */
-*, *::before, *::after {
+
+/* ═══════════════════════════════════════════════
+   2b. SEMANTIC TOKENS: DARK
+   Only the values that change. Same names as light.
+   ═══════════════════════════════════════════════ */
+[data-theme="dark"],
+.dark,
+.dashboard.dark {
+  color-scheme: dark;
+
+  --bg-page:        #0b1511;
+  --bg-canvas:
+    radial-gradient(900px 520px at 6% -8%,  rgba(95, 174, 121, 0.16), transparent 62%),
+    radial-gradient(760px 460px at 100% 0%, rgba(245, 158, 11, 0.09), transparent 58%),
+    radial-gradient(900px 620px at 55% 115%, rgba(174, 134, 92, 0.12), transparent 62%),
+    var(--bg-page);
+  --surface-card:   rgba(22, 38, 30, 0.62);
+  --surface-strong: rgba(24, 42, 33, 0.92);
+  --surface-solid:  #16261e;
+  --surface-input:  rgba(7, 15, 11, 0.55);
+  --surface-hover:  rgba(232, 239, 233, 0.06);
+  --sidebar-bg:     rgba(18, 32, 25, 0.70);
+
+  --text:           #e8efe9;
+  --text-soft:      #c3d0c7;
+  --text-muted:     #93a69a;
+  --text-faint:     #6a7d71;
+  --text-on-primary:#0b1a12;
+
+  --border:         rgba(232, 239, 233, 0.11);
+  --border-strong:  rgba(232, 239, 233, 0.22);
+  --border-soft:    rgba(232, 239, 233, 0.06);
+  --glass-border:   rgba(255, 255, 255, 0.10);
+
+  --color-primary:        var(--green-400);
+  --color-primary-hover:  var(--green-300);
+  --color-primary-active: var(--green-200);
+  --color-primary-soft:   rgba(95, 174, 121, 0.16);
+
+  --color-highlight:        var(--amber-400);
+  --color-highlight-hover:  var(--amber-300);
+  --color-highlight-soft:   rgba(245, 158, 11, 0.16);
+
+  --color-secondary:      var(--brown-300);
+  --color-secondary-soft: rgba(197, 164, 124, 0.14);
+
+  --status-ok-bg:    rgba(95, 174, 121, 0.18);   --status-ok-text:   var(--green-300);
+  --status-warn-bg:  rgba(245, 158, 11, 0.16);   --status-warn-text: var(--amber-300);
+  --status-bad-bg:   rgba(239, 68, 68, 0.16);    --status-bad-text:  var(--red-300);
+  --status-info-bg:  rgba(197, 164, 124, 0.16);  --status-info-text: var(--brown-300);
+  --status-danger:   var(--red-400);
+
+  --focus-ring:     0 0 0 3px rgba(95, 174, 121, 0.35);
+  --overlay:        rgba(3, 8, 5, 0.62);
+  --shadow-sm:      0 1px 3px rgba(0, 0, 0, 0.40);
+  --shadow-md:      0 6px 18px rgba(0, 0, 0, 0.35);
+  --shadow-lg:      0 20px 50px rgba(0, 0, 0, 0.55);
+  --shadow-glass:   0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --shadow-primary: 0 4px 10px rgba(95, 174, 121, 0.25);
+}
+
+
+/* ═══════════════════════════════════════════════
+   2c. SCALES (theme independent)
+   ═══════════════════════════════════════════════ */
+:root {
+  /* Glass */
+  --glass-blur:     16px;
+  --glass-filter:   blur(16px) saturate(150%);
+
+  /* Radius */
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   14px;
+  --radius-xl:   18px;
+  --radius-pill: 999px;
+
+  /* Motion */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.25s ease;
+  --transition-slow: 0.4s ease;
+
+  /* Typography */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+
+  --text-xs:   0.75rem;
+  --text-sm:   0.85rem;
+  --text-base: 0.95rem;
+  --text-md:   1.05rem;
+  --text-lg:   1.25rem;
+  --text-xl:   1.5rem;
+  --text-2xl:  1.8rem;
+
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-semibold:600;
+  --weight-bold:    700;
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+
+  /* Layout */
+  --sidebar-width:           250px;
+  --sidebar-width-collapsed: 70px;
+  --sidebar-width-mobile:    280px;
+  --content-max:             1200px;
+  --content-max-wide:        1400px;
+
+  /* Stacking */
+  --z-sidebar-overlay: 999;
+  --z-sidebar:         1000;
+  --z-modal:           1000;
+  --z-topbar:          1001;
+  --z-toast:           1100;
+}
+
+
+/* ═══════════════════════════════════════════════
+   3. LEGACY ALIASES
+   Existing CSS files use these names. They now point at the tokens above.
+   Declared on every theme scope so they re-resolve when a wrapper switches theme.
+   ═══════════════════════════════════════════════ */
+:root,
+[data-theme],
+.dark,
+.dashboard.dark {
+  /* --bm-*  (BatchesManage, SpecificationsManage, SampleModal, PrintQueue, COAs, ScanLogs, UsersKeys) */
+  --bm-bg-page:        var(--bg-page);
+  --bm-bg-card:        var(--surface-card);
+  --bm-bg-input:       var(--surface-input);
+  --bm-bg-hover:       var(--surface-hover);
+  --bm-text:           var(--text);
+  --bm-text-muted:     var(--text-muted);
+  --bm-border:         var(--border);
+  --bm-border-strong:  var(--border-strong);
+  --bm-accent:         var(--color-primary);
+  --bm-accent-hover:   var(--color-primary-hover);
+  --bm-accent-text:    var(--text-on-primary);
+  --bm-ok-bg:          var(--status-ok-bg);    --bm-ok-text:   var(--status-ok-text);
+  --bm-warn-bg:        var(--status-warn-bg);  --bm-warn-text: var(--status-warn-text);
+  --bm-bad-bg:         var(--status-bad-bg);   --bm-bad-text:  var(--status-bad-text);
+  --bm-info-bg:        var(--status-info-bg);  --bm-info-text: var(--status-info-text);
+  --bm-radius:         var(--radius-md);
+  --bm-radius-pill:    var(--radius-pill);
+  --bm-transition:     var(--transition-base);
+  --bm-shadow:         var(--shadow-sm);
+
+  /* --color-*  (Dashboard) */
+  --color-bg-base:           var(--bg-page);
+  --color-bg-surface:        var(--sidebar-bg);
+  --color-text-primary:      var(--text);
+  --color-text-secondary:    var(--text-muted);
+  --color-accent-brass:      var(--color-highlight);
+  --color-accent-brass-dark: var(--color-highlight-hover);
+
+  /* --vp-*  (VerifyPage) */
+  --vp-bg:           var(--bg-page);
+  --vp-card:         var(--surface-strong);
+  --vp-text:         var(--text);
+  --vp-muted:        var(--text-muted);
+  --vp-line:         var(--border);
+  --vp-btn-bg:       var(--color-primary);
+  --vp-btn-text:     var(--text-on-primary);
+  --vp-valid-bg:     var(--status-ok-bg);    --vp-valid-fg:    var(--status-ok-text);
+  --vp-invalid-bg:   var(--status-bad-bg);   --vp-invalid-fg:  var(--status-bad-text);
+  --vp-recalled-bg:  var(--status-warn-bg);  --vp-recalled-fg: var(--status-warn-text);
+}
+
+
+/* ═══════════════════════════════════════════════
+   4a. BASE
+   ═══════════════════════════════════════════════ */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
-html, body, #root {
-  height: 100%;
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--gs-bg-page);
-  color: var(--gs-text);
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
   line-height: 1.5;
+  color: var(--text);
+  background: var(--bg-canvas);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
-  transition: background var(--gs-transition), color var(--gs-transition);
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Scrollbar */
+#root {
+  min-height: 100vh;
+}
+
+@media (hover: none) {
+  body { background-attachment: scroll; } /* fixed backgrounds are janky on phones */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  line-height: 1.25;
+  color: inherit;
+}
+
+p { margin: 0; }
+
+a {
+  color: var(--color-primary);
+  text-underline-offset: 2px;
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button { cursor: pointer; }
+
+button:disabled { cursor: not-allowed; }
+
+img, svg { max-width: 100%; }
+
+code, kbd, pre, samp { font-family: var(--font-mono); }
+
+::placeholder {
+  color: var(--text-faint);
+  opacity: 1;
+}
+
+::selection {
+  background: var(--color-primary);
+  color: var(--text-on-primary);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Thin themed scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: var(--gs-border-strong);
-  border-radius: var(--gs-radius-pill);
+  background: var(--border-strong);
+  border-radius: var(--radius-pill);
 }
-::-webkit-scrollbar-thumb:hover { background: var(--gs-text-muted); }
+::-webkit-scrollbar-thumb:hover { background: var(--text-faint); }
 
-/* Selection */
-::selection {
-  background: var(--gs-accent);
-  color: var(--gs-accent-text);
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
-/* ══════════════════════════════════════════════════════════════
-   BACKWARD-COMPAT ALIASES
-   All `--bm-*` tokens from older CSS files map to the new `--gs-*` tokens.
-   This lets us migrate file-by-file without breaking existing styles.
-   ══════════════════════════════════════════════════════════════ */
-:root {
-  --bm-bg-page:        var(--gs-bg-page);
-  --bm-bg-card:        var(--gs-bg-card);
-  --bm-bg-input:       var(--gs-bg-input);
-  --bm-bg-hover:       var(--gs-bg-hover);
 
-  --bm-text:           var(--gs-text);
-  --bm-text-muted:     var(--gs-text-muted);
+/* ═══════════════════════════════════════════════
+   4b. GLASS
+   Utilities for new components, plus a blur for existing ones.
+   ═══════════════════════════════════════════════ */
+.glass {
+  background: var(--surface-card);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-glass);
+  -webkit-backdrop-filter: var(--glass-filter);
+  backdrop-filter: var(--glass-filter);
+}
 
-  --bm-border:         var(--gs-border);
-  --bm-border-strong:  var(--gs-border-strong);
+.glass-strong {
+  background: var(--surface-strong);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-glass);
+  -webkit-backdrop-filter: var(--glass-filter);
+  backdrop-filter: var(--glass-filter);
+}
 
-  --bm-accent:         var(--gs-accent);
-  --bm-accent-hover:   var(--gs-accent-hover);
-  --bm-accent-text:    var(--gs-accent-text);
+/* Frosted blur for the cards that already use var(--bm-bg-card) / var(--color-bg-surface).
+   Only backdrop-filter is set here, so no component styles are overridden.
+   Do NOT add .content-panel or any element that wraps a position:fixed modal:
+   backdrop-filter makes the element the containing block for fixed children and the modal would
+   stop covering the screen. The modal overlays themselves are left alone for the same reason. */
+.sidebar,
+.mobile-topbar,
+.welcome-banner,
+.batches-header-card,
+.batches-recents-card,
+.spec-actions-card,
+.spec-main-card,
+.pq-card,
+.pq-coa-preview,
+.pq-manifest-wrapper,
+.coa-table-wrapper,
+.sl-table-wrapper,
+.modal-content,
+.sm-content,
+.vp-card {
+  -webkit-backdrop-filter: var(--glass-filter);
+  backdrop-filter: var(--glass-filter);
+}
 
-  --bm-ok-bg:          var(--gs-ok-bg);
-  --bm-ok-text:        var(--gs-ok-text);
-  --bm-warn-bg:        var(--gs-warn-bg);
-  --bm-warn-text:      var(--gs-warn-text);
-  --bm-bad-bg:         var(--gs-bad-bg);
-  --bm-bad-text:       var(--gs-bad-text);
-
-  --bm-radius:         var(--gs-radius);
-  --bm-radius-pill:    var(--gs-radius-pill);
-  --bm-transition:     var(--gs-transition);
-  --bm-shadow:         var(--gs-shadow-sm);
+/* Browsers without backdrop-filter get near-opaque surfaces so text stays readable */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :root,
+  [data-theme],
+  .dark,
+  .dashboard.dark {
+    --surface-card: var(--surface-strong);
+    --sidebar-bg:   var(--surface-strong);
+  }
 }

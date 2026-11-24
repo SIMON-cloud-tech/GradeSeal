@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const Batch = require('../models/Batch');
 const Specification = require('../models/Specifications');
-const { listBagIds } = require('../utils/bagIds');
+const { listBagIds } = require('../utils/bagId');
 const { asyncHandler, throwError } = require('../utils/errorHandler');
 
 const STATUSES = ['Awaiting Sample', 'Pending Approval', 'Approved', 'Recalled'];

@@ -1,7 +1,7 @@
 // utils/qrGenerator.js
 // Nothing in here is stored. QR codes are rebuilt from the batch whenever they are needed.
 const QRCode = require('qrcode');
-const { listBagIds } = require('./bagIds');
+const { listBagIds } = require('./bagId');
 
 const stripSlash = (u) => String(u).replace(/\/+$/, '');
 

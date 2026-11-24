@@ -1,7 +1,7 @@
 // controllers/sampleController.js
 const Batch = require('../models/Batch');
 const uploadToCloudinary = require('../utils/cloudinaryUpload');
-const { listBagIds, pickRandomBag } = require('../utils/bagIds');
+const { listBagIds, pickRandomBag } = require('../utils/bagId');
 const { asyncHandler, throwError } = require('../utils/errorHandler');
 
 const PARAMS = ['gelThickness', 'impurity', 'rotation', 'colour', 'moisture', 'diameter', 'ringTest'];

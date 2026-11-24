@@ -1,317 +1,125 @@
 /* ──────────────────────────────────────────────────────────────
-   src/Components/Dashboard/css/PrintQueueDetailPage.css
-   GradeSeal — Print Queue Detail
+   src/Components/Dashboard/css/ScanLogs.css
+   GradeSeal — Scan Logs
    Relies on semantic tokens from src/index.css
    ────────────────────────────────────────────────────────────── */
 
-.pq-detail-container {
-  display: flex;
-  flex-direction: column;
+.sl-container {
   padding: var(--space-8);
-  max-width: var(--content-max-wide);
+  max-width: var(--content-max);
   margin: 0 auto;
   color: var(--text);
 }
 
 /* ── Header ── */
-.pq-detail-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.sl-header h2 {
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  margin: 0 0 var(--space-2) 0;
+  color: var(--text);
+}
+
+.sl-header p {
+  color: var(--text-muted);
   margin-bottom: var(--space-8);
-  padding-bottom: var(--space-6);
-  border-bottom: 1px solid var(--border);
 }
 
-.pq-detail-title-area {
-  display: flex;
-  align-items: center;
-  gap: var(--space-6);
-}
-
-.pq-back-btn {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  background: transparent;
-  border: 1px solid var(--border-strong);
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-md);
-  color: var(--text);
-  font-weight: var(--weight-medium);
-  transition: background var(--transition-base),
-              border-color var(--transition-base);
-}
-
-.pq-back-btn:hover {
-  background: var(--surface-hover);
-  border-color: var(--color-primary);
-}
-
-.pq-detail-title-area h2 {
-  margin: 0;
-  font-size: var(--text-xl);
-  font-weight: var(--weight-bold);
-  color: var(--text);
-}
-
-.pq-detail-title-area p {
-  margin: 0;
-  color: var(--text-muted);
-  font-size: var(--text-base);
-}
-
-.pq-btn-print {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  background: var(--color-primary);
-  color: var(--text-on-primary);
-  border: none;
-  padding: var(--space-3) var(--space-6);
-  border-radius: var(--radius-pill);
-  font-size: var(--text-base);
-  font-weight: var(--weight-semibold);
-  transition: background var(--transition-base);
-  box-shadow: var(--shadow-primary);
-}
-
-.pq-btn-print:hover {
-  background: var(--color-primary-hover);
-}
-
-.pq-btn-print:active {
-  background: var(--color-primary-active);
-}
-
-/* ── Layout ── */
-.pq-detail-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-10);
-  align-items: start;
-}
-
-.pq-section-title {
-  font-size: var(--text-md);
-  font-weight: var(--weight-semibold);
-  color: var(--text);
-  margin-bottom: var(--space-4);
-}
-
-/* ── Left Column: COA Preview ── */
-.pq-coa-preview {
-  background: var(--surface-card);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-8);
-  box-shadow: var(--shadow-glass);
-}
-
-.pq-coa-preview-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 2px solid var(--text);
-  padding-bottom: var(--space-4);
-  margin-bottom: var(--space-4);
-}
-
-.pq-coa-preview-header h3 {
-  margin: 0;
-  font-size: 1.4rem;
-  font-weight: var(--weight-bold);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--text);
-}
-
-.pq-verified-badge {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  color: var(--status-ok-text);
-  background: var(--status-ok-bg);
-  padding: 0.4rem 0.8rem;
-  border-radius: var(--radius-pill);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-}
-
-.pq-coa-meta {
-  font-size: var(--text-base);
-  color: var(--text-muted);
+/* ── Search ── */
+.sl-search-wrapper {
+  position: relative;
   margin-bottom: var(--space-6);
+  max-width: 400px;
 }
 
-.pq-coa-table {
+.sl-search-icon {
+  position: absolute;
+  left: var(--space-4);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-faint);
+  pointer-events: none;
+}
+
+.sl-search-input {
   width: 100%;
-  border-collapse: collapse;
-  margin-bottom: var(--space-6);
-}
-
-.pq-coa-table th,
-.pq-coa-table td {
-  padding: var(--space-3);
-  text-align: left;
-  border-bottom: 1px solid var(--border-soft);
-  font-size: var(--text-base);
-}
-
-.pq-coa-table th {
-  background: var(--surface-input);
-  border-bottom: 1px solid var(--border);
-  font-weight: var(--weight-semibold);
-  color: var(--text-muted);
-}
-
-.pq-coa-table td {
-  color: var(--text-soft);
-}
-
-.pq-coa-comments {
-  background: var(--surface-input);
-  border: 1px solid var(--border-soft);
-  padding: var(--space-4);
+  padding: var(--space-3) var(--space-4) var(--space-3) 2.8rem;
+  border: 1px solid var(--border);
   border-radius: var(--radius-md);
+  background: var(--surface-input);
+  color: var(--text);
   font-size: var(--text-base);
-  color: var(--text-muted);
-  font-style: italic;
+  outline: none;
+  transition: border-color var(--transition-base),
+              box-shadow var(--transition-base);
 }
 
-/* ── Right Column: Manifest Table ── */
-.pq-manifest-wrapper {
+.sl-search-input::placeholder {
+  color: var(--text-faint);
+}
+
+.sl-search-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: var(--focus-ring);
+}
+
+/* ── Table ── */
+.sl-table-wrapper {
   background: var(--surface-card);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-glass);
-  max-height: 600px;
-  overflow-y: auto;
 }
 
-.pq-manifest-table {
+.sl-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.pq-manifest-table th,
-.pq-manifest-table td {
+.sl-table th,
+.sl-table td {
   padding: var(--space-4);
   text-align: left;
   border-bottom: 1px solid var(--border-soft);
   font-size: var(--text-base);
 }
 
-.pq-manifest-table th {
-  background: var(--surface-strong);
+.sl-table th {
+  background: var(--surface-input);
   border-bottom: 1px solid var(--border);
   font-weight: var(--weight-semibold);
   color: var(--text-muted);
   text-transform: uppercase;
   font-size: var(--text-xs);
-  position: sticky;
-  top: 0;
-  z-index: 10;
   letter-spacing: 0.04em;
 }
 
-.pq-manifest-table td {
+.sl-table td {
   color: var(--text-soft);
 }
 
-.pq-row-coa {
-  background-color: var(--color-primary-soft);
+.sl-table tr:last-child td {
+  border-bottom: none;
 }
 
-/* Badges in the table */
-.pq-type-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.3rem 0.6rem;
-  border-radius: var(--radius-pill);
-  font-size: var(--text-xs);
+.sl-table tbody tr {
+  transition: background var(--transition-fast);
+}
+
+.sl-table tbody tr:hover {
+  background: var(--surface-hover);
+}
+
+/* ── Reference Link ── */
+.sl-coa-ref {
+  color: var(--color-primary);
   font-weight: var(--weight-semibold);
 }
 
-.pq-badge-coa {
-  background: var(--status-ok-bg);
-  color: var(--status-ok-text);
-}
-
-.pq-badge-bag {
-  background: var(--color-secondary-soft);
-  color: var(--status-info-text);
-}
-
-/* ── Responsive ── */
-@media (max-width: 1024px) {
-  .pq-detail-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .pq-manifest-wrapper {
-    max-height: 400px;
-  }
-}
-
-/* ──────────────────────────────────────────────────────────────
-   Print Stylesheet
-   ────────────────────────────────────────────────────────────── */
-@media print {
-  body * {
-    visibility: hidden;
-  }
-
-  .pq-detail-container,
-  .pq-detail-container * {
-    visibility: visible;
-  }
-
-  .pq-detail-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    color: #000 !important;
-    background: #fff !important;
-  }
-
-  .pq-back-btn,
-  .pq-btn-print {
-    display: none !important;
-  }
-
-  .pq-detail-layout {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  .pq-coa-preview {
-    border: 1px solid #000;
-    box-shadow: none;
-    page-break-inside: avoid;
-  }
-
-  .pq-manifest-wrapper {
-    max-height: none !important;
-    overflow: visible !important;
-    border: 1px solid #000;
-    box-shadow: none;
-    page-break-before: always;
-  }
-
-  .pq-manifest-table th,
-  .pq-manifest-table td {
-    border: 1px solid #000;
-    font-size: 10px;
-    padding: 4px;
-  }
-
-  .pq-row-coa {
-    background: #eee !important;
-  }
+/* ── Location Cell ── */
+.sl-location {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text-muted);
 }

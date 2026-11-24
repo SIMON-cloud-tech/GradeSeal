@@ -1,7 +1,7 @@
 // controllers/scanLogController.js
 const ScanLog = require('../models/ScanLog');
 const Batch = require('../models/Batch');
-const { listBagIds } = require('../utils/bagIds');
+const { listBagIds } = require('../utils/bagId');
 const { asyncHandler, throwError } = require('../utils/errorHandler');
 
 const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

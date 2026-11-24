@@ -1,7 +1,7 @@
 // controllers/batchController.js
 const mongoose = require('mongoose');
 const Batch = require('../models/Batch');
-const Specification = require('../models/Specification');
+const Specification = require('../models/Specifications');
 const { listBagIds } = require('../utils/bagIds');
 const { asyncHandler, throwError } = require('../utils/errorHandler');
 

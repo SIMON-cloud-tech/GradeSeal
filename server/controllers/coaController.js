@@ -3,7 +3,7 @@
 // so this reads the Batch model and returns objects shaped for COAsManage / PrintQueue.
 const mongoose = require('mongoose');
 const Batch = require('../models/Batch');
-const Specification = require('../models/Specification');
+const Specification = require('../models/Specifications');
 const { asyncHandler, throwError } = require('../utils/errorHandler');
 
 const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

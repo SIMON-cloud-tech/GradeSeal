@@ -1,5 +1,5 @@
 // controllers/specificationController.js
-const Specification = require('../models/Specification');
+const Specification = require('../models/Specifications');
 const { asyncHandler, throwError } = require('../utils/errorHandler');
 
 // @desc    Get all specifications (filtered by type: 'client' or 'government')

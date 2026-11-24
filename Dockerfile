@@ -1,27 +1,30 @@
 # ── Base image ──
 FROM node:22-alpine
+
 # ── Set working directory ──
 WORKDIR /app
 
-# ── Copy root package.json (for concurrently, if any) ──
+# ── Root dependencies (if any) ──
 COPY package*.json ./
-RUN npm install || true
+RUN if [ -f package.json ]; then npm install; fi
 
 # ── BACKEND ──
-COPY server/ ./server/
+COPY server/package*.json ./server/
 WORKDIR /app/server
-RUN npm install
+RUN npm ci --omit=dev || npm install --omit=dev
+COPY server/ ./
 
 # ── FRONTEND ──
 WORKDIR /app
-COPY client/ ./client/
+COPY client/package*.json ./client/
 WORKDIR /app/client
-RUN npm install && npm run build
+RUN npm ci || npm install
+COPY client/ ./
+RUN rm -rf dist && npm run build
 
-# ── Move built frontend to backend's static folder ──
+# ── Move fresh built frontend to backend's static folder ──
 WORKDIR /app
-RUN mkdir -p ./server/public
-RUN cp -r ./client/dist/* ./server/public/
+RUN rm -rf ./server/public && mkdir -p ./server/public && cp -r ./client/dist/* ./server/public/
 
 # ── Expose port ──
 EXPOSE 5000

@@ -150,13 +150,6 @@ const Dashboard = ({ setUser }) => {
             {ActiveComponent && <ActiveComponent />}
           </div>
         </section>
-
-        <footer className="dashboard-footer">
-          <p>© {new Date().getFullYear()} Ondrivo. All rights reserved.</p>
-          <Link to="/" className="dashboard-footer-link">
-            <p>Industrial software built to last, not to disappear.</p>
-          </Link>
-        </footer>
       </main>
     </div>
   );

@@ -1,0 +1,292 @@
+/* ──────────────────────────────────────────────────────────────
+   src/Components/Dashboard/css/SampleModal.css
+   GradeSeal — Sample Modal
+   Relies on global tokens from src/index.css
+   ────────────────────────────────────────────────────────────── */
+
+/* ── Overlay ── */
+.sm-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--gs-bg-glass-dark); /* Deep glass overlay */
+  backdrop-filter: var(--gs-glass-blur);
+  -webkit-backdrop-filter: var(--gs-glass-blur);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  z-index: 1000;
+}
+
+/* ── Modal Container ── */
+.sm-content {
+  background: var(--gs-bg-card);
+  border: 1px solid var(--gs-border);
+  border-radius: var(--gs-radius-lg);
+  width: 100%;
+  max-width: 650px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--gs-shadow-lg);
+  overflow: hidden;
+  animation: smSlideUp 0.3s ease-out;
+}
+
+@keyframes smSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Header ── */
+.sm-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--gs-border);
+  flex-shrink: 0;
+}
+
+.sm-header h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  color: var(--gs-text);
+}
+
+.sm-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--gs-text-muted);
+  cursor: pointer;
+  padding: 0.4rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--gs-transition), color var(--gs-transition);
+}
+
+.sm-close-btn:hover { 
+  background: var(--gs-bg-hover); 
+  color: var(--gs-text);
+}
+
+/* ── Body (Scrollable) ── */
+.sm-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.sm-body::-webkit-scrollbar { width: 6px; }
+.sm-body::-webkit-scrollbar-thumb { 
+  background: var(--gs-border-strong); 
+  border-radius: 10px; 
+}
+
+/* ── Form Inputs ── */
+.sm-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.sm-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gs-text-muted);
+}
+
+.sm-group input[type="text"],
+.sm-group input[type="number"],
+.sm-group select,
+.sm-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--gs-border);
+  border-radius: var(--gs-radius);
+  background: var(--gs-bg-input);
+  color: var(--gs-text);
+  font-size: 0.95rem;
+  transition: border-color var(--gs-transition), box-shadow var(--gs-transition);
+}
+
+.sm-group input:focus,
+.sm-group select:focus,
+.sm-group textarea:focus {
+  outline: none;
+  border-color: var(--gs-accent);
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15); /* Green focus ring */
+}
+
+[data-theme="dark"] .sm-group input:focus,
+[data-theme="dark"] .sm-group select:focus,
+[data-theme="dark"] .sm-group textarea:focus {
+  box-shadow: 0 0 0 3px rgba(224, 165, 70, 0.20); /* Amber focus ring */
+}
+
+.sm-error-input {
+  border-color: var(--gs-red-500) !important;
+}
+
+.sm-error-text {
+  font-size: 0.8rem;
+  color: var(--gs-red-500);
+}
+
+/* ── Measurements Grid ── */
+.sm-section-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--gs-text);
+  margin: 1rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--gs-border);
+}
+
+.sm-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* The column widths: 1.2fr for name, 1fr for input, 40px for each status */
+.sm-grid-header, .sm-grid-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 40px 40px;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.sm-grid-header {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--gs-text-muted);
+  padding-bottom: 0.5rem;
+}
+
+.sm-grid-header div {
+  text-align: center;
+}
+.sm-grid-header div:first-child { text-align: left; }
+
+.sm-grid-row {
+  padding: 0.25rem 0;
+}
+
+.sm-grid-label {
+  font-size: 0.9rem;
+  color: var(--gs-text);
+}
+
+.sm-grid-input input,
+.sm-grid-input select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--gs-border);
+  border-radius: var(--gs-radius-sm);
+  background: var(--gs-bg-input);
+  color: var(--gs-text);
+  font-size: 0.9rem;
+}
+
+.sm-grid-status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+/* ── Photo Upload ── */
+.sm-upload-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.sm-upload-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  background: var(--gs-bg-hover);
+  border: 1px dashed var(--gs-border-strong);
+  border-radius: var(--gs-radius);
+  color: var(--gs-text);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all var(--gs-transition);
+}
+
+.sm-upload-btn:hover {
+  border-color: var(--gs-accent);
+  background: var(--gs-bg-card);
+}
+
+.sm-photo-preview {
+  height: 56px;
+  width: 56px;
+  object-fit: cover;
+  border-radius: var(--gs-radius);
+  border: 1px solid var(--gs-border);
+}
+
+/* ── Footer (Fixed) ── */
+.sm-footer {
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid var(--gs-border);
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  flex-shrink: 0;
+  background: var(--gs-bg-card);
+}
+
+.sm-btn-cancel {
+  padding: 0.65rem 1.25rem;
+  background: transparent;
+  border: 1px solid var(--gs-border-strong);
+  border-radius: var(--gs-radius-pill);
+  color: var(--gs-text);
+  cursor: pointer;
+  font-weight: 500;
+  transition: background var(--gs-transition);
+}
+
+.sm-btn-cancel:hover {
+  background: var(--gs-bg-hover);
+}
+
+.sm-btn-save {
+  padding: 0.65rem 1.25rem;
+  background: var(--gs-accent);
+  border: 1px solid var(--gs-accent);
+  border-radius: var(--gs-radius-pill);
+  color: var(--gs-accent-text);
+  cursor: pointer;
+  font-weight: 500;
+  transition: background var(--gs-transition);
+}
+
+.sm-btn-save:hover:not(:disabled) {
+  background: var(--gs-accent-hover);
+}
+
+.sm-btn-save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.sm-error-banner {
+  background: var(--gs-bad-bg);
+  color: var(--gs-bad-text);
+  padding: 0.75rem;
+  border-radius: var(--gs-radius);
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  border: 1px solid var(--gs-red-500);
+}

@@ -1,0 +1,303 @@
+/* ──────────────────────────────────────────────────────────────
+   src/Components/Dashboard/css/PrintQueueDetailPage.css
+   GradeSeal — Print Queue Detail
+   Relies on global tokens from src/index.css
+   ────────────────────────────────────────────────────────────── */
+
+.pq-detail-container {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  color: var(--gs-text);
+}
+
+/* ── Header ── */
+.pq-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--gs-border);
+}
+
+.pq-detail-title-area {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.pq-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: 1px solid var(--gs-border-strong);
+  padding: 0.5rem 1rem;
+  border-radius: var(--gs-radius);
+  cursor: pointer;
+  color: var(--gs-text);
+  font-weight: 500;
+  transition: background var(--gs-transition), border-color var(--gs-transition);
+}
+
+.pq-back-btn:hover {
+  background: var(--gs-bg-hover);
+  border-color: var(--gs-accent);
+}
+
+.pq-detail-title-area h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--gs-text);
+}
+
+.pq-detail-title-area p {
+  margin: 0;
+  color: var(--gs-text-muted);
+  font-size: 0.9rem;
+}
+
+.pq-btn-print {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--gs-accent);
+  color: var(--gs-accent-text);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--gs-radius-pill);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--gs-transition);
+  box-shadow: var(--gs-shadow-sm);
+}
+
+.pq-btn-print:hover {
+  background: var(--gs-accent-hover);
+}
+
+/* ── Layout ── */
+.pq-detail-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.pq-section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--gs-text);
+  margin-bottom: 1rem;
+}
+
+/* ── Left Column: COA Preview ── */
+.pq-coa-preview {
+  background: var(--gs-bg-card);
+  border: 1px solid var(--gs-border);
+  border-radius: var(--gs-radius-lg);
+  padding: 2rem;
+  box-shadow: var(--gs-shadow-sm);
+}
+
+.pq-coa-preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--gs-text);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.pq-coa-preview-header h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--gs-text);
+}
+
+.pq-verified-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--gs-ok-text);
+  background: var(--gs-ok-bg);
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--gs-radius-pill);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.pq-coa-meta {
+  font-size: 0.9rem;
+  color: var(--gs-text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.pq-coa-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+}
+
+.pq-coa-table th, .pq-coa-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--gs-border);
+  font-size: 0.9rem;
+}
+
+.pq-coa-table th {
+  background: var(--gs-bg-input);
+  font-weight: 600;
+  color: var(--gs-text-muted);
+}
+
+.pq-coa-comments {
+  background: var(--gs-bg-input);
+  padding: 1rem;
+  border-radius: var(--gs-radius);
+  font-size: 0.9rem;
+  color: var(--gs-text-muted);
+  font-style: italic;
+}
+
+/* ── Right Column: Manifest Table ── */
+.pq-manifest-wrapper {
+  background: var(--gs-bg-card);
+  border: 1px solid var(--gs-border);
+  border-radius: var(--gs-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--gs-shadow-sm);
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.pq-manifest-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.pq-manifest-table th, .pq-manifest-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--gs-border);
+  font-size: 0.9rem;
+}
+
+.pq-manifest-table th {
+  background: var(--gs-bg-input);
+  font-weight: 600;
+  color: var(--gs-text-muted);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  letter-spacing: 0.04em;
+}
+
+.pq-row-coa {
+  background-color: rgba(22, 163, 74, 0.05); /* Subtle green tint */
+}
+
+[data-theme="dark"] .pq-row-coa {
+  background-color: rgba(224, 165, 70, 0.08); /* Subtle amber tint */
+}
+
+/* Badges in the table */
+.pq-type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--gs-radius-pill);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.pq-badge-coa {
+  background: var(--gs-ok-bg);
+  color: var(--gs-ok-text);
+}
+
+.pq-badge-bag {
+  background: var(--gs-bg-hover);
+  color: var(--gs-text-muted);
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .pq-detail-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .pq-manifest-wrapper {
+    max-height: 400px;
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Print Stylesheet
+   ────────────────────────────────────────────────────────────── */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .pq-detail-container,
+  .pq-detail-container * {
+    visibility: visible;
+  }
+
+  .pq-detail-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    color: #000 !important;
+    background: #fff !important;
+  }
+
+  .pq-back-btn,
+  .pq-btn-print {
+    display: none !important;
+  }
+
+  .pq-detail-layout {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .pq-coa-preview {
+    border: 1px solid #000;
+    box-shadow: none;
+    page-break-inside: avoid;
+  }
+
+  .pq-manifest-wrapper {
+    max-height: none !important;
+    overflow: visible !important;
+    border: 1px solid #000;
+    box-shadow: none;
+    page-break-before: always;
+  }
+
+  .pq-manifest-table th,
+  .pq-manifest-table td {
+    border: 1px solid #000;
+    font-size: 10px;
+    padding: 4px;
+  }
+
+  .pq-row-coa {
+    background: #eee !important;
+  }
+}

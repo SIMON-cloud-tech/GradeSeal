@@ -1,0 +1,204 @@
+/* ──────────────────────────────────────────────────────────────
+   src/Components/Dashboard/css/PrintQueue.css
+   GradeSeal — Print Queue
+   Relies on global tokens from src/index.css
+   ────────────────────────────────────────────────────────────── */
+
+.pq-container {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: var(--gs-text);
+}
+
+/* ── Header ── */
+.pq-header {
+  margin-bottom: 2rem;
+}
+
+.pq-header h2 {
+  font-size: 1.8rem;
+  color: var(--gs-text);
+  margin: 0 0 0.5rem 0;
+}
+
+.pq-header p {
+  color: var(--gs-text-muted);
+  margin: 0;
+}
+
+/* ── Search ── */
+.pq-search-wrapper {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto 2.5rem auto;
+  width: 100%;
+}
+
+.pq-search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gs-text-muted);
+}
+
+.pq-search-input {
+  width: 100%;
+  padding: 0.85rem 1rem 0.85rem 2.8rem;
+  border: 1px solid var(--gs-border);
+  border-radius: var(--gs-radius-pill); /* Pill shape */
+  background: var(--gs-bg-card);
+  color: var(--gs-text);
+  font-size: 1rem;
+  box-shadow: var(--gs-shadow-sm);
+  transition: border-color var(--gs-transition), box-shadow var(--gs-transition);
+}
+
+.pq-search-input:focus {
+  outline: none;
+  border-color: var(--gs-accent);
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15); /* Green focus ring */
+}
+
+[data-theme="dark"] .pq-search-input:focus {
+  box-shadow: 0 0 0 3px rgba(224, 165, 70, 0.20); /* Amber focus ring */
+}
+
+/* ── Grid ── */
+.pq-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* ── Card ── */
+.pq-card {
+  background: var(--gs-bg-card);
+  border: 1px solid var(--gs-border);
+  border-radius: var(--gs-radius-lg);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--gs-transition), box-shadow var(--gs-transition);
+  box-shadow: var(--gs-shadow-sm);
+}
+
+.pq-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--gs-shadow-lg);
+}
+
+.pq-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--gs-border);
+}
+
+.pq-card-coa {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--gs-text);
+}
+
+.pq-badge {
+  background: var(--gs-ok-bg);
+  color: var(--gs-ok-text);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--gs-radius-pill);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* ── Card Body ── */
+.pq-card-body {
+  flex: 1;
+  margin-bottom: 1.5rem;
+}
+
+.pq-card-row {
+  font-size: 0.9rem;
+  color: var(--gs-text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.pq-label {
+  font-weight: 600;
+  color: var(--gs-text);
+  margin-right: 0.5rem;
+}
+
+.pq-card-comments {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: var(--gs-text-muted);
+  font-style: italic;
+  background: var(--gs-bg-input);
+  padding: 0.75rem;
+  border-radius: var(--gs-radius);
+  line-height: 1.4;
+}
+
+/* ── Card Footer ── */
+.pq-card-footer {
+  margin-top: auto;
+}
+
+.pq-btn-read-more {
+  width: 100%;
+  padding: 0.6rem;
+  background: transparent;
+  border: 1px solid var(--gs-border-strong);
+  border-radius: var(--gs-radius);
+  color: var(--gs-text);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--gs-transition), border-color var(--gs-transition), color var(--gs-transition);
+}
+
+.pq-btn-read-more:hover {
+  background: var(--gs-bg-hover);
+  border-color: var(--gs-accent);
+  color: var(--gs-accent);
+}
+
+/* ── Load More ── */
+.pq-load-more-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.pq-btn-load-more {
+  padding: 0.75rem 2rem;
+  background: var(--gs-accent);
+  color: var(--gs-accent-text);
+  border: none;
+  border-radius: var(--gs-radius-pill);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--gs-transition);
+}
+
+.pq-btn-load-more:hover:not(.disabled) {
+  background: var(--gs-accent-hover);
+}
+
+.pq-btn-load-more.disabled {
+  background: var(--gs-text-muted);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* ── Empty State ── */
+.pq-empty {
+  text-align: center;
+  padding: 3rem;
+  color: var(--gs-text-muted);
+}

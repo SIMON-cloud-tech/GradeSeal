@@ -1,22 +1,204 @@
+/* ──────────────────────────────────────────────────────────────
+   src/index.css
+   GradeSeal — Global Design Tokens & Theme
+   Palette: Green (primary) · Glassy (surfaces) · Light Brown · Amber
+   ────────────────────────────────────────────────────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ══════════════════════════════════════════════════════════════
+   LIGHT THEME (DEFAULT)
+   ══════════════════════════════════════════════════════════════ */
 :root {
-  /* ── Backgrounds ── */
-  --color-bg-base: #0F1720;      /* Deep ink-navy (main background) */
-  --color-bg-surface: #17212C;   /* Slightly lighter for cards/sections */
+  /* ── Brand: Green (Primary) ── */
+  --gs-green-50:       #f0fdf4;
+  --gs-green-100:      #dcfce7;
+  --gs-green-200:      #bbf7d0;
+  --gs-green-500:      #22c55e;
+  --gs-green-600:      #16a34a;
+  --gs-green-700:      #15803d;
+  --gs-green-800:      #166534;
+  --gs-green-900:      #14532d;
+
+  /* ── Brand: Light Brown ── */
+  --gs-brown-50:       #fdf8f6;
+  --gs-brown-100:      #f3eae3;
+  --gs-brown-200:      #e6d2c4;
+  --gs-brown-400:      #b7967b;
+  --gs-brown-600:      #8b6b52;
+  --gs-brown-800:      #5c4535;
+
+  /* ── Brand: Amber ── */
+  --gs-amber-50:       #fffbeb;
+  --gs-amber-100:      #fef3c7;
+  --gs-amber-200:      #fde68a;
+  --gs-amber-400:      #fbbf24;
+  --gs-amber-500:      #f59e0b;
+  --gs-amber-600:      #d97706;
+  --gs-amber-800:      #92400e;
+
+  /* ── Semantic: Danger / Info (for statuses) ── */
+  --gs-red-100:        #fee2e2;
+  --gs-red-500:        #ef4444;
+  --gs-red-600:        #dc2626;
+  --gs-red-800:        #991b1b;
+
+  --gs-blue-100:       #e0e7ff;
+  --gs-blue-600:       #2563eb;
+  --gs-blue-800:       #3730a3;
+
+  /* ── Base Layout Colors ── */
+  --gs-bg-page:        #f8faf9;          /* Very subtle green-tinged background */
+  --gs-bg-card:        #ffffff;          /* Card surface */
+  --gs-bg-input:       #f9fafb;
+  --gs-bg-hover:       #f3f4f6;
+  --gs-bg-glass:       rgba(255, 255, 255, 0.75);   /* Glass overlay */
+  --gs-bg-glass-dark:  rgba(22, 33, 27, 0.55);      /* Darker glass */
 
   /* ── Text ── */
-  --color-text-primary: #E8EBF0; /* Soft off-white */
-  --color-text-secondary: #8A96A8; /* Slate-grey for captions */
+  --gs-text:           #1f2937;
+  --gs-text-muted:     #6b7280;
+  --gs-text-inverse:   #ffffff;
 
-  /* ── Accent ── */
-  --color-accent-brass: #C08B3E; /* Muted brass/amber (the one bold move) */
-  --color-accent-brass-dark: #a8742e; /* Darker for hover states */
+  /* ── Borders ── */
+  --gs-border:         #e5e7eb;
+  --gs-border-strong:  #d1d5db;
 
-  /* ── Overlay ── */
-  --color-overlay-start: rgba(15, 23, 32, 0.40);
-  --color-overlay-mid: rgba(15, 23, 32, 0.60);
-  --color-overlay-end: rgba(15, 23, 32, 0.85);
+  /* ── Primary Accent (Green) ── */
+  --gs-accent:         #16a34a;
+  --gs-accent-hover:   #15803d;
+  --gs-accent-text:    #ffffff;
 
-  /* ── Border radius & transitions ── */
-  --radius-btn: 30px;
-  --transition-default: 0.3s ease; 
+  /* ── Status Colors ── */
+  --gs-ok-bg:          #dcfce7;   --gs-ok-text:    #166534;
+  --gs-warn-bg:        #fef3c7;   --gs-warn-text:  #92400e;
+  --gs-bad-bg:         #fee2e2;   --gs-bad-text:   #991b1b;
+  --gs-info-bg:        #e0e7ff;   --gs-info-text:  #3730a3;
+
+  /* ── Glass Effects ── */
+  --gs-glass-blur:     blur(14px);
+  --gs-glass-shadow:   0 8px 32px rgba(0, 0, 0, 0.08);
+  --gs-glass-border:   rgba(255, 255, 255, 0.35);
+
+  /* ── Radii & Transitions ── */
+  --gs-radius-sm:      6px;
+  --gs-radius:         10px;
+  --gs-radius-lg:      14px;
+  --gs-radius-pill:    30px;
+
+  --gs-transition:     0.25s ease;
+  --gs-transition-slow: 0.4s ease;
+
+  /* ── Elevation / Shadow ── */
+  --gs-shadow-sm:      0 1px 3px rgba(0, 0, 0, 0.06);
+  --gs-shadow:         0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  --gs-shadow-lg:      0 10px 25px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   DARK THEME
+   ══════════════════════════════════════════════════════════════ */
+[data-theme="dark"] {
+  /* ── Layout ── */
+  --gs-bg-page:        #0b1410;           /* Deep forest green-black */
+  --gs-bg-card:        #16211b;           /* Slightly lighter */
+  --gs-bg-input:       #101a15;
+  --gs-bg-hover:       #1d2b23;
+  --gs-bg-glass:       rgba(22, 33, 27, 0.55);
+  --gs-bg-glass-dark:  rgba(11, 20, 16, 0.75);
+
+  /* ── Text ── */
+  --gs-text:           #f0f7f2;
+  --gs-text-muted:     #8aa393;
+  --gs-text-inverse:   #0b1410;
+
+  /* ── Borders ── */
+  --gs-border:         rgba(240, 247, 242, 0.08);
+  --gs-border-strong:  rgba(240, 247, 242, 0.18);
+
+  /* ── Primary Accent (Amber in dark mode for contrast) ── */
+  --gs-accent:         #e0a546;
+  --gs-accent-hover:   #c68e34;
+  --gs-accent-text:    #0b1410;
+
+  /* ── Status Colors (glassy overlays) ── */
+  --gs-ok-bg:          rgba(34, 197, 94, 0.15);   --gs-ok-text:   #6ee7a8;
+  --gs-warn-bg:        rgba(245, 158, 11, 0.15);  --gs-warn-text: #fbbf24;
+  --gs-bad-bg:         rgba(239, 68, 68, 0.15);   --gs-bad-text:  #f87171;
+  --gs-info-bg:        rgba(59, 130, 246, 0.15);  --gs-info-text: #93c5fd;
+
+  /* ── Glass Effects ── */
+  --gs-glass-shadow:   0 8px 32px rgba(0, 0, 0, 0.4);
+  --gs-glass-border:   rgba(240, 247, 242, 0.12);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   GLOBAL RESET & BASE
+   ══════════════════════════════════════════════════════════════ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--gs-bg-page);
+  color: var(--gs-text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  transition: background var(--gs-transition), color var(--gs-transition);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--gs-border-strong);
+  border-radius: var(--gs-radius-pill);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--gs-text-muted); }
+
+/* Selection */
+::selection {
+  background: var(--gs-accent);
+  color: var(--gs-accent-text);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   BACKWARD-COMPAT ALIASES
+   All `--bm-*` tokens from older CSS files map to the new `--gs-*` tokens.
+   This lets us migrate file-by-file without breaking existing styles.
+   ══════════════════════════════════════════════════════════════ */
+:root {
+  --bm-bg-page:        var(--gs-bg-page);
+  --bm-bg-card:        var(--gs-bg-card);
+  --bm-bg-input:       var(--gs-bg-input);
+  --bm-bg-hover:       var(--gs-bg-hover);
+
+  --bm-text:           var(--gs-text);
+  --bm-text-muted:     var(--gs-text-muted);
+
+  --bm-border:         var(--gs-border);
+  --bm-border-strong:  var(--gs-border-strong);
+
+  --bm-accent:         var(--gs-accent);
+  --bm-accent-hover:   var(--gs-accent-hover);
+  --bm-accent-text:    var(--gs-accent-text);
+
+  --bm-ok-bg:          var(--gs-ok-bg);
+  --bm-ok-text:        var(--gs-ok-text);
+  --bm-warn-bg:        var(--gs-warn-bg);
+  --bm-warn-text:      var(--gs-warn-text);
+  --bm-bad-bg:         var(--gs-bad-bg);
+  --bm-bad-text:       var(--gs-bad-text);
+
+  --bm-radius:         var(--gs-radius);
+  --bm-radius-pill:    var(--gs-radius-pill);
+  --bm-transition:     var(--gs-transition);
+  --bm-shadow:         var(--gs-shadow-sm);
 }

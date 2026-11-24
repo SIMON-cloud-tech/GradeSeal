@@ -39,6 +39,16 @@ const uploadToCloudinary = (buffer, folder = 'ondrivo') => {
     // push the buffer into the stream — this triggers the upload
     stream.end(buffer);
   });
+  
 };
+const uploadPdfToCloudinary = (buffer, publicId, folder = 'gradeseal/coas') =>
+  new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { folder, resource_type: 'raw', public_id: `${publicId}.pdf`, overwrite: true },
+      (err, result) => (err ? reject(err) : resolve(result.secure_url))
+    );
+    stream.end(buffer);
+  });
 
 module.exports = uploadToCloudinary;
+module.exports.uploadPdfToCloudinary = uploadPdfToCloudinary;

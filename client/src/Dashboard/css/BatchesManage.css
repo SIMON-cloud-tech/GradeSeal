@@ -1,0 +1,458 @@
+/* ──────────────────────────────────────────────────────────────
+   src/Components/Dashboard/css/BatchesManage.css
+   GradeSeal — Batches
+   Relies on global tokens from src/index.css
+   ────────────────────────────────────────────────────────────── */
+
+/* ── Page shell ── */
+.batches-manage {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  color: var(--gs-text);
+}
+
+.batches-loading {
+  padding: 2rem;
+  text-align: center;
+  color: var(--gs-text-muted);
+}
+
+/* ── Card A: Header ── */
+.batches-header-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  background: var(--gs-bg-card);
+  border: 1px solid var(--gs-border);
+  border-radius: var(--gs-radius);
+  box-shadow: var(--gs-shadow-sm);
+}
+
+.batches-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.new-batch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1.1rem;
+  background: var(--gs-accent);
+  color: var(--gs-accent-text);
+  border: 1px solid var(--gs-accent);
+  border-radius: var(--gs-radius-pill);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background var(--gs-transition),
+              border-color var(--gs-transition);
+}
+
+.new-batch-btn:hover {
+  background: var(--gs-accent-hover);
+  border-color: var(--gs-accent-hover);
+}
+
+/* ── Card B: Recents ── */
+.batches-recents-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1.25rem 1.25rem;
+  background: var(--gs-bg-card);
+  border: 1px solid var(--gs-border);
+  border-radius: var(--gs-radius);
+  box-shadow: var(--gs-shadow-sm);
+}
+
+.recents-title {
+  margin: 0 0 0.85rem 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+/* ── Search ── */
+.search-wrapper {
+  position: relative;
+  margin-bottom: 0.9rem;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gs-text-muted);
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.6rem 0.85rem 0.6rem 2.3rem;
+  background: var(--gs-bg-input);
+  border: 1px solid var(--gs-border);
+  border-radius: var(--gs-radius);
+  color: var(--gs-text);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color var(--gs-transition),
+              box-shadow var(--gs-transition);
+}
+
+.search-input::placeholder { color: var(--gs-text-muted); }
+
+.search-input:focus {
+  border-color: var(--gs-accent);
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15); /* Green focus ring */
+}
+
+[data-theme="dark"] .search-input:focus {
+  box-shadow: 0 0 0 3px rgba(224, 165, 70, 0.20); /* Amber focus ring in dark mode */
+}
+
+/* ── Table ── */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.batches-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.batches-table thead th {
+  text-align: left;
+  padding: 0.7rem 0.85rem;
+  border-bottom: 2px solid var(--gs-border);
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gs-text-muted);
+  white-space: nowrap;
+}
+
+.batches-table tbody td {
+  padding: 0.7rem 0.85rem;
+  border-bottom: 1px solid var(--gs-border);
+  white-space: nowrap;
+}
+
+.batch-row:hover { background: var(--gs-bg-hover); }
+
+.empty-row {
+  text-align: center;
+  padding: 2rem 1rem !important;
+  color: var(--gs-text-muted);
+}
+
+/* ── QC pills ── */
+.qc-pill {
+  display: inline-block;
+  padding: 0.22rem 0.65rem;
+  border-radius: var(--gs-radius-pill);
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.qc-approved { background: var(--gs-ok-bg);   color: var(--gs-ok-text); }
+.qc-pending  { background: var(--gs-warn-bg); color: var(--gs-warn-text); }
+.qc-recalled { background: var(--gs-bad-bg);  color: var(--gs-bad-text); }
+
+/* ── Row actions ── */
+.row-actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.sample-btn,
+.approve-btn,
+.recall-btn {
+  padding: 0.32rem 0.7rem;
+  border-radius: var(--gs-radius-pill);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: opacity var(--gs-transition);
+}
+
+/* Sample button (neutral) */
+.sample-btn {
+  background: var(--gs-bg-hover);
+  color: var(--gs-text);
+  border-color: var(--gs-border-strong);
+}
+.sample-btn:hover { opacity: 0.8; }
+
+/* Approve button (green) */
+.approve-btn {
+  background: var(--gs-ok-bg);
+  color: var(--gs-ok-text);
+}
+.approve-btn:hover { opacity: 0.8; }
+
+/* Recall button (red) */
+.recall-btn {
+  background: var(--gs-bad-bg);
+  color: var(--gs-bad-text);
+}
+.recall-btn:hover { opacity: 0.8; }
+
+/* View COA button */
+.view-coa-btn {
+  padding: 0.32rem 0.7rem;
+  border-radius: var(--gs-radius-pill);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid var(--gs-border-strong);
+  background: transparent;
+  color: var(--gs-text);
+  transition: background var(--gs-transition);
+}
+.view-coa-btn:hover { background: var(--gs-bg-hover); }
+
+/* ── Pagination ── */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.page-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--gs-bg-card);
+  border: 1px solid var(--gs-border-strong);
+  border-radius: var(--gs-radius-sm);
+  color: var(--gs-text);
+  cursor: pointer;
+  transition: background var(--gs-transition),
+              border-color var(--gs-transition);
+}
+
+.page-btn:hover:not(:disabled) {
+  background: var(--gs-bg-hover);
+  border-color: var(--gs-accent);
+}
+
+.page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.page-indicator {
+  font-size: 0.85rem;
+  color: var(--gs-text-muted);
+}
+
+/* ── Modal Layout ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  z-index: 1000;
+}
+
+.modal-content {
+  width: 100%;
+  max-width: 900px; 
+  max-height: 85vh; 
+  background: var(--gs-bg-card);
+  border: 1px solid var(--gs-border);
+  border-radius: var(--gs-radius-lg);
+  box-shadow: var(--gs-shadow-lg);
+  
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--gs-border);
+  flex-shrink: 0; 
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.close-modal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--gs-radius-pill);
+  color: var(--gs-text-muted);
+  cursor: pointer;
+  transition: background var(--gs-transition),
+              color var(--gs-transition);
+}
+
+.close-modal:hover {
+  background: var(--gs-bg-hover);
+  color: var(--gs-text);
+}
+
+/* ── Form (The Scrollable Body) ── */
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden; 
+}
+
+.modal-body-scroll {
+  padding: 1.5rem;
+  overflow-y: auto; 
+  flex: 1;
+}
+
+/* Custom Scrollbar for the modal body */
+.modal-body-scroll::-webkit-scrollbar { width: 6px; }
+.modal-body-scroll::-webkit-scrollbar-track { background: transparent; }
+.modal-body-scroll::-webkit-scrollbar-thumb { 
+  background: var(--gs-border-strong); 
+  border-radius: 10px; 
+}
+
+/* ── The 2-Column Grid (Table-like) ── */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* Make textareas span both columns */
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+/* ── Form Inputs ── */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group label {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--gs-text-muted);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.6rem 0.85rem;
+  background: var(--gs-bg-input);
+  border: 1px solid var(--gs-border);
+  border-radius: var(--gs-radius);
+  color: var(--gs-text);
+  font-size: 0.9rem;
+  font-family: inherit;
+  outline: none;
+  resize: vertical;
+  transition: border-color var(--gs-transition),
+              box-shadow var(--gs-transition);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--gs-accent);
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15); /* Green */
+}
+
+[data-theme="dark"] .form-group input:focus,
+[data-theme="dark"] .form-group select:focus,
+[data-theme="dark"] .form-group textarea:focus {
+  box-shadow: 0 0 0 3px rgba(224, 165, 70, 0.20); /* Amber */
+}
+
+/* ── Form actions (Fixed Footer) ── */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  padding: 1.25rem 1.5rem;
+  border-top: 1px solid var(--gs-border);
+  background: var(--gs-bg-card);
+  flex-shrink: 0; 
+}
+
+.cancel-btn,
+.save-btn {
+  padding: 0.6rem 1.15rem;
+  border-radius: var(--gs-radius-pill);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background var(--gs-transition),
+              border-color var(--gs-transition),
+              color var(--gs-transition);
+}
+
+.cancel-btn {
+  background: transparent;
+  color: var(--gs-text-muted);
+  border-color: var(--gs-border-strong);
+}
+
+.cancel-btn:hover {
+  background: var(--gs-bg-hover);
+  color: var(--gs-text);
+}
+
+.save-btn {
+  background: var(--gs-accent);
+  color: var(--gs-accent-text);
+  border-color: var(--gs-accent);
+}
+
+.save-btn:hover {
+  background: var(--gs-accent-hover);
+  border-color: var(--gs-accent-hover);
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .form-grid {
+    grid-template-columns: 1fr; 
+  }
+
+  .batches-header-card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .new-batch-btn { justify-content: center; }
+
+  .form-actions { flex-direction: column-reverse; }
+  .cancel-btn,
+  .save-btn { width: 100%; }
+}

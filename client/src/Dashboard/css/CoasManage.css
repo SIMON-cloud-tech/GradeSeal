@@ -1,0 +1,135 @@
+/* ──────────────────────────────────────────────────────────────
+   src/Components/Dashboard/css/COAsManage.css
+   GradeSeal — Certificates of Analysis
+   Relies on global tokens from src/index.css
+   ────────────────────────────────────────────────────────────── */
+
+.coa-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: var(--gs-text);
+}
+
+/* ── Header ── */
+.coa-header h2 {
+  font-size: 1.8rem;
+  margin: 0 0 0.5rem 0;
+  color: var(--gs-text);
+}
+.coa-header p {
+  color: var(--gs-text-muted);
+  margin-bottom: 2rem;
+}
+
+/* ── Search ── */
+.coa-search-wrapper {
+  position: relative;
+  margin-bottom: 1.5rem;
+  max-width: 400px;
+}
+
+.coa-search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gs-text-muted);
+}
+
+.coa-search-input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.8rem;
+  border: 1px solid var(--gs-border);
+  border-radius: var(--gs-radius);
+  background: var(--gs-bg-input);
+  color: var(--gs-text);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color var(--gs-transition), box-shadow var(--gs-transition);
+}
+
+.coa-search-input:focus {
+  border-color: var(--gs-accent);
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15); /* Green focus ring */
+}
+
+[data-theme="dark"] .coa-search-input:focus {
+  box-shadow: 0 0 0 3px rgba(224, 165, 70, 0.20); /* Amber focus ring */
+}
+
+/* ── Table ── */
+.coa-table-wrapper {
+  background: var(--gs-bg-card);
+  border: 1px solid var(--gs-border);
+  border-radius: var(--gs-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--gs-shadow-sm);
+}
+
+.coa-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.coa-table th, .coa-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--gs-border);
+  font-size: 0.9rem;
+}
+
+.coa-table th {
+  background: var(--gs-bg-input);
+  font-weight: 600;
+  color: var(--gs-text-muted);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+.coa-table tr:last-child td {
+  border-bottom: none;
+}
+
+.coa-table tbody tr:hover {
+  background: var(--gs-bg-hover);
+}
+
+/* ── Status Badges ── */
+.coa-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--gs-radius-pill);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.coa-signed  { background: var(--gs-ok-bg);   color: var(--gs-ok-text); }
+.coa-pending { background: var(--gs-warn-bg); color: var(--gs-warn-text); }
+.coa-sent    { background: var(--gs-info-bg); color: var(--gs-info-text); }
+
+/* ── Download Action ── */
+.coa-download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: transparent;
+  border: 1px solid var(--gs-border-strong);
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--gs-radius-sm);
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--gs-text);
+  text-decoration: none; /* In case used as <a> */
+  transition: background var(--gs-transition), border-color var(--gs-transition);
+}
+
+.coa-download-btn:hover {
+  background: var(--gs-bg-hover);
+  border-color: var(--gs-accent);
+  color: var(--gs-accent);
+}

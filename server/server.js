@@ -9,22 +9,25 @@ const connectDB = require('./config/db');
 const { errorHandler } = require('./utils/errorHandler');
 
 // ─── ROUTES ───
+// Variable names below are the ones used in app.use() further down.
+// Keep the file names exactly as they are on disk (routes/batchRoutes.js holds the multer code).
 const authRoutes = require('./routes/authRoute');
 const resetRoutes = require('./routes/resetRoute');
-const blogRoutes = require('./routes/blogRoute');
-const projectRoutes = require('./routes/projectRoute');
-const testimonialsRoutes = require('./routes/testimonialRoute');
-const dashboardRoutes = require('./routes/dashboardRoute');
-const caseStudyRoutes = require('./routes/CaseStudyRoute');
-const chatbotRoutes = require('./routes/chatbotRoute');
+const batchRoutes = require('./routes/batchRoute');
+const specificationRoutes = require('./routes/specificationRoute');
+const coaRoutes = require('./routes/coaRoute');
+const scanLogRoutes = require('./routes/scanRoute');
 
 // ─── APP SETUP ───
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const FRONTEND_ORIGIN = process.env.NODE_ENV === 'production'
-  ? 'https://ondrivo.onrender.com/'
-  : 'http://localhost:5173';
+// No trailing slash: browsers send the Origin header without one, so a slash makes CORS fail
+const FRONTEND_ORIGIN = process.env.FRONTEND_URL || (
+  process.env.NODE_ENV === 'production'
+    ? 'https://gradeseal.onrender.com'
+    : 'http://localhost:5173'
+);
 
 app.set('trust proxy', 1);
 
@@ -32,7 +35,7 @@ app.set('trust proxy', 1);
 app.use(cors({
   origin: FRONTEND_ORIGIN,
   credentials: true,
-}));
+})); // default methods already include GET, POST, PUT, PATCH and DELETE
 app.use(express.json());
 app.use(cookieParser());
 
@@ -45,28 +48,17 @@ app.use('/uploads', (req, res, next) => {
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-// ─── PUBLIC ROUTES ───
+// ─── API ROUTES ───
 app.use('/api', authRoutes);
 app.use('/api/reset', resetRoutes);
-app.use('/api/blogs', blogRoutes);
-app.use('/api/projects', projectRoutes);
-app.use('/api/testimonials', testimonialsRoutes);
-app.use('/api/chatbot', chatbotRoutes);
-app.use('/api/case-studies', caseStudyRoutes);
-
-app.get('/api/config', (req, res) => {
-  res.json({
-    whatsappNumber: process.env.VITE_WHATSAPP_NUMBER || 254703433014,
-    phoneNumber: process.env.VITE_PHONE_NUMBER || 254703433014,
-  });
-});
+app.use('/api/batches', batchRoutes);                 // mounted ONCE
+app.use('/api/specifications', specificationRoutes);
+app.use('/api/coas', coaRoutes);
+app.use('/api/scanlogs', scanLogRoutes);              // matches the URL used by ScanLogs.jsx
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
-
-// ─── PROTECTED ROUTES ───
-app.use('/api/dashboard', dashboardRoutes);
 
 // ─── CLIENT-SIDE ROUTING CATCH-ALL ───
 app.use((req, res, next) => {

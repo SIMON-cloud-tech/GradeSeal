@@ -1,0 +1,273 @@
+/* ──────────────────────────────────────────────────────────────
+   src/Components/Dashboard/css/UsersKeysManage.css
+   GradeSeal — Users & Keys
+   Relies on global tokens from src/index.css
+   ────────────────────────────────────────────────────────────── */
+
+.uk-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: var(--gs-text);
+}
+
+/* ── Card 1: Crypto Key Card ── */
+.uk-crypto-card {
+  position: relative;
+  background: var(--gs-bg-card);
+  border: 1px solid var(--gs-border);
+  border-radius: var(--gs-radius-lg);
+  padding: 2rem;
+  box-shadow: var(--gs-shadow-sm);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.uk-crypto-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.uk-crypto-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--gs-text);
+}
+
+.uk-icon-green {
+  color: var(--gs-accent);
+}
+
+.uk-status-badge-active {
+  background: var(--gs-ok-bg);
+  color: var(--gs-ok-text);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--gs-radius-pill);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.uk-crypto-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.uk-detail-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.9rem;
+}
+
+.uk-label {
+  color: var(--gs-text-muted);
+  width: 120px;
+  font-weight: 500;
+}
+
+.uk-value {
+  color: var(--gs-text);
+  font-weight: 500;
+}
+
+.uk-value.code {
+  font-family: monospace;
+  background: var(--gs-bg-input);
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--gs-radius-sm);
+  border: 1px solid var(--gs-border);
+}
+
+/* Floating Add User Button */
+.uk-add-user-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--gs-accent);
+  color: var(--gs-accent-text);
+  border: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--gs-radius-pill);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--gs-transition), transform var(--gs-transition);
+  box-shadow: var(--gs-shadow-sm);
+}
+
+.uk-add-user-btn:hover {
+  background: var(--gs-accent-hover);
+  transform: translateY(-2px);
+}
+
+/* ── Card 2: Staff Card ── */
+.uk-staff-card {
+  background: var(--gs-bg-card);
+  border: 1px solid var(--gs-border);
+  border-radius: var(--gs-radius-lg);
+  padding: 2rem;
+  box-shadow: var(--gs-shadow-sm);
+}
+
+.uk-staff-title {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.25rem;
+  color: var(--gs-text);
+}
+
+.uk-search-wrapper {
+  position: relative;
+  max-width: 400px;
+  margin-bottom: 1.5rem;
+}
+
+.uk-search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gs-text-muted);
+}
+
+.uk-search-input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.8rem;
+  border: 1px solid var(--gs-border);
+  border-radius: var(--gs-radius);
+  background: var(--gs-bg-input);
+  font-size: 0.95rem;
+  color: var(--gs-text);
+  transition: border-color var(--gs-transition), box-shadow var(--gs-transition);
+}
+
+.uk-search-input:focus {
+  outline: none;
+  border-color: var(--gs-accent);
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
+}
+
+[data-theme="dark"] .uk-search-input:focus {
+  box-shadow: 0 0 0 3px rgba(224, 165, 70, 0.20);
+}
+
+/* ── Table ── */
+.uk-table-wrapper {
+  overflow-x: auto;
+}
+
+.uk-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.uk-table th, .uk-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--gs-border);
+  font-size: 0.9rem;
+}
+
+.uk-table th {
+  background: var(--gs-bg-input);
+  font-weight: 600;
+  color: var(--gs-text-muted);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+.uk-table tbody tr:hover {
+  background: var(--gs-bg-hover);
+}
+
+.uk-user-name {
+  font-weight: 600;
+  color: var(--gs-text);
+}
+
+.uk-user-email {
+  color: var(--gs-text-muted);
+}
+
+/* ── Badges ── */
+.uk-role-badge {
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--gs-radius-pill);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.role-ceo { background: var(--gs-bad-bg); color: var(--gs-bad-text); } /* Red tint for top authority */
+.role-qa-manager { background: var(--gs-info-bg); color: var(--gs-info-text); } /* Blue tint */
+.role-operator { background: var(--gs-warn-bg); color: var(--gs-warn-text); } /* Amber tint */
+.role-buyer { background: var(--gs-bg-hover); color: var(--gs-text-muted); } /* Neutral */
+
+.uk-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--gs-radius-pill);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.status-active { color: var(--gs-ok-text); }
+.status-suspended { color: var(--gs-bad-text); }
+
+/* ── Actions ── */
+.uk-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.uk-btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--gs-border);
+  background: transparent;
+  border-radius: var(--gs-radius-sm);
+  cursor: pointer;
+  color: var(--gs-text-muted);
+  transition: all var(--gs-transition);
+}
+
+.uk-btn-icon:hover {
+  background: var(--gs-bg-hover);
+  color: var(--gs-text);
+}
+
+.uk-btn-danger:hover {
+  background: var(--gs-bad-bg);
+  color: var(--gs-bad-text);
+  border-color: var(--gs-red-500);
+}
+
+.uk-empty-row {
+  text-align: center;
+  padding: 2rem !important;
+  color: var(--gs-text-muted);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .uk-crypto-card {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .uk-add-user-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

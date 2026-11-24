@@ -1,0 +1,112 @@
+/* ──────────────────────────────────────────────────────────────
+   src/Components/Dashboard/css/ScanLogs.css
+   GradeSeal — Scan Logs
+   Relies on global tokens from src/index.css
+   ────────────────────────────────────────────────────────────── */
+
+.sl-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: var(--gs-text);
+}
+
+/* ── Header ── */
+.sl-header h2 {
+  font-size: 1.8rem;
+  margin: 0 0 0.5rem 0;
+  color: var(--gs-text);
+}
+
+.sl-header p {
+  color: var(--gs-text-muted);
+  margin-bottom: 2rem;
+}
+
+/* ── Search ── */
+.sl-search-wrapper {
+  position: relative;
+  margin-bottom: 1.5rem;
+  max-width: 400px;
+}
+
+.sl-search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gs-text-muted);
+}
+
+.sl-search-input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.8rem;
+  border: 1px solid var(--gs-border);
+  border-radius: var(--gs-radius);
+  background: var(--gs-bg-input);
+  color: var(--gs-text);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color var(--gs-transition), box-shadow var(--gs-transition);
+}
+
+.sl-search-input:focus {
+  border-color: var(--gs-accent);
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15); /* Green focus ring */
+}
+
+[data-theme="dark"] .sl-search-input:focus {
+  box-shadow: 0 0 0 3px rgba(224, 165, 70, 0.20); /* Amber focus ring */
+}
+
+/* ── Table ── */
+.sl-table-wrapper {
+  background: var(--gs-bg-card);
+  border: 1px solid var(--gs-border);
+  border-radius: var(--gs-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--gs-shadow-sm);
+}
+
+.sl-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.sl-table th, .sl-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--gs-border);
+  font-size: 0.9rem;
+}
+
+.sl-table th {
+  background: var(--gs-bg-input);
+  font-weight: 600;
+  color: var(--gs-text-muted);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+.sl-table tr:last-child td {
+  border-bottom: none;
+}
+
+.sl-table tbody tr:hover {
+  background: var(--gs-bg-hover);
+}
+
+/* ── Reference Link ── */
+.sl-coa-ref {
+  color: var(--gs-accent);
+  font-weight: 600;
+}
+
+/* ── Location Cell ── */
+.sl-location {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--gs-text-muted);
+}

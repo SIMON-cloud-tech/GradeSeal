@@ -1,5 +1,5 @@
 // controllers/scanLogController.js
-const ScanLog = require('../models/ScanLog');
+const ScanLog = require('../models/ScanLogs');
 const Batch = require('../models/Batch');
 const { listBagIds } = require('../utils/bagId');
 const { asyncHandler, throwError } = require('../utils/errorHandler');

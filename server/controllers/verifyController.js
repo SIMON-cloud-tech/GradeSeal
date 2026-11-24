@@ -3,7 +3,7 @@
 // It decides the result on the server, logs the scan, and returns only what a buyer may see.
 const Batch = require('../models/Batch');
 const ScanLog = require('../models/ScanLog');
-const { listBagIds } = require('../utils/bagIds');
+const { listBagIds } = require('../utils/bagId');
 const { verifyCoaSignature } = require('../utils/coaSigner');
 const { asyncHandler } = require('../utils/errorHandler');
 

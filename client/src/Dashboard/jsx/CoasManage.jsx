@@ -3,7 +3,9 @@ import { useState, useEffect } from 'react';
 import { FiSearch, FiDownload, FiCheckCircle, FiClock } from 'react-icons/fi';
 import '../css/CoasManage.css';
 
-const API_URL = 'http://localhost:5000/api/coas';
+//Define the api base to use when fetching the coas from the server.
+//This is a relative path to the server's API endpoint.
+const API_URL = '/api/coas';
 
 const COAsManage = () => {
   const [coas, setCoas] = useState([]);
@@ -15,7 +17,7 @@ const COAsManage = () => {
     const fetchCOAs = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`${API_URL}?search=${search}`);
+        const res = await fetch(`${API_URL}?search=${search}`, { credentials: 'include' });
         if (!res.ok) throw new Error('Failed to fetch COAs');
         const data = await res.json();
         setCoas(data);

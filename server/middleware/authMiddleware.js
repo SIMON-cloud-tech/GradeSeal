@@ -1,15 +1,13 @@
+// middleware/authMiddleware.js — updated
 const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
   let token = null;
-
-  // 1. Try Authorization header (for backward compatibility)
   const authHeader = req.headers.authorization;
   if (authHeader && authHeader.startsWith('Bearer ')) {
     token = authHeader.split(' ')[1];
   }
-
-  // 2. If not in header, try cookie (new method)
   if (!token && req.cookies && req.cookies.token) {
     token = req.cookies.token;
   }
@@ -20,7 +18,16 @@ module.exports = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = { id: decoded.id, email: decoded.email };
+    
+    const user = await User.findById(decoded.id).select('role status');
+    if (!user) {
+      return res.status(401).json({ message: 'User no longer exists' });
+    }
+    if (user.status !== 'active') {
+      return res.status(403).json({ message: 'Account is suspended' });
+    }
+
+    req.user = { id: decoded.id, email: decoded.email, role: user.role };
     next();
   } catch (err) {
     return res.status(401).json({ message: 'Invalid token' });

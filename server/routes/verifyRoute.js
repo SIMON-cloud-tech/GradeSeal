@@ -1,9 +1,10 @@
-// routes/verifyRoute.js  (PUBLIC: no auth middleware here)
+// routes/verifyRoute.js — KEEP PUBLIC
 const express = require('express');
 const router = express.Router();
 const { verifyScan } = require('../controllers/verifyController');
 
-router.get('/:coaId', verifyScan);        // certificate QR
-router.get('/:coaId/:bagId', verifyScan); // bag QR
+// No authMiddleware. No requireRole. This is intentional.
+router.get('/:coaId', verifyScan);
+router.get('/:coaId/:bagId', verifyScan);
 
 module.exports = router;

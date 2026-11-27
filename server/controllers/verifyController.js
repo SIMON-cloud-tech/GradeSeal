@@ -2,7 +2,7 @@
 // PUBLIC endpoint hit by the verify page when someone scans a QR code.
 // It decides the result on the server, logs the scan, and returns only what a buyer may see.
 const Batch = require('../models/Batch');
-const ScanLog = require('../models/ScanLog');
+const ScanLog = require('../models/ScanLogs');
 const { listBagIds } = require('../utils/bagId');
 const { verifyCoaSignature } = require('../utils/coaSigner');
 const { asyncHandler } = require('../utils/errorHandler');
@@ -26,7 +26,7 @@ exports.verifyScan = asyncHandler(async (req, res) => {
       if (bagId) {
         let inRange = false;
         try {
-          inRange = listBagIds(batch.startingBagId, batch.numberOfBags).includes(bagId);
+          inRange = listBagIds(batch.startingBagId, Number(batch.numberOfBags)).includes(bagId);
         } catch { /* malformed startingBagId: treat as not in range */ }
         // The sampled bag never gets a label, so a scan of it is suspicious too
         if (!inRange || bagId === batch.sampledBagId) result = 'Invalid Bag';

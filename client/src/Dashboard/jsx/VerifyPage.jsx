@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import '../css/verify.css';
 
-const API = import.meta.env.VITE_API_URL || '';
+const API = '/api';
 
 const PARAMS = [
   ['gelThickness', 'Gel Thickness'],
@@ -49,7 +49,7 @@ const VerifyPage = () => {
     if (firedFor.current === key) return;
     firedFor.current = key;
 
-    const url = `${API}/api/verify/${encodeURIComponent(coaId)}${bagId ? `/${encodeURIComponent(bagId)}` : ''}`;
+    const url = `${API}/verify/${encodeURIComponent(coaId)}${bagId ? `/${encodeURIComponent(bagId)}` : ''}`;
 
     fetch(url)
       .then((res) => {

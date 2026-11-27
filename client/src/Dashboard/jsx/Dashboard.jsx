@@ -1,13 +1,10 @@
-// ──────────────────────────────────────────────────────────────
-//  src/Components/Dashboard/jsx/Dashboard.jsx
-//  Ondrivo — Industrial Process Engineering Dashboard
-// ──────────────────────────────────────────────────────────────
+// src/Components/Dashboard/jsx/Dashboard.jsx
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   FiLayers, FiActivity, FiPrinter, FiFileText,
-  FiKey, FiTruck, FiLogOut, FiSun, FiMoon, FiMenu, FiX,
+  FiKey, FiLogOut, FiSun, FiMoon, FiMenu, FiX,
 } from 'react-icons/fi';
 import '../css/Dashboard.css';
 
@@ -16,29 +13,41 @@ import SpecificationsManage from './SpecificationsManage.jsx';
 import PrintQueueManage from './PrintQueue.jsx';
 import ScanLogs from './ScanLogs.jsx';
 import COAsManage from './CoasManage.jsx';
-import UserKeys from './UserKeys.jsx';
+import UsersKeysManage from './UserKeys.jsx';
 
 // ── Constants ──
+// Each item declares which roles can see it.
 const MENU_ITEMS = [
-  { id: 'batches',     label: 'Batches',      icon: FiLayers,   component: BatchesManage },
-  { id: 'specifications', label: 'Specifications', icon: FiFileText, component: SpecificationsManage },
-  { id: 'print-queue', label: 'Print Queue',    icon: FiPrinter,  component: PrintQueueManage },
-  { id: 'scan-logs',   label: 'Scan Logs',      icon: FiActivity, component: ScanLogs },
-  { id: 'coas',        label: 'COAs',           icon: FiFileText, component: COAsManage },
-  { id: 'user-keys',   label: 'User Keys',      icon: FiKey,      component: UserKeys }
+  { id: 'batches',        label: 'Batches',        icon: FiLayers,   component: BatchesManage,         roles: ['ceo', 'qa', 'operator'] },
+  { id: 'specifications', label: 'Specifications', icon: FiFileText, component: SpecificationsManage,  roles: ['ceo', 'qa', 'operator'] },
+  { id: 'print-queue',    label: 'Print Queue',    icon: FiPrinter,  component: PrintQueueManage,      roles: ['ceo', 'qa', 'operator'] },
+  { id: 'scan-logs',      label: 'Scan Logs',      icon: FiActivity, component: ScanLogs,              roles: ['ceo', 'qa', 'operator'] },
+  { id: 'coas',           label: 'COAs',           icon: FiFileText, component: COAsManage,            roles: ['ceo', 'qa', 'operator', 'buyer'] },
+  { id: 'user-keys',      label: 'User Keys',      icon: FiKey,      component: UsersKeysManage,       roles: ['ceo'] },
 ];
 
 const Dashboard = ({ setUser }) => {
   const navigate = useNavigate();
 
-  // ── State ──
-  const [activeMenu, setActiveMenu] = useState('batches');
+  const [activeMenu, setActiveMenu] = useState(null);  // ← deferred until profile loads
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  // ── Memoize active component ──
+  // ── Filter menu by role ──
+  const visibleItems = useMemo(() => {
+    if (!profile?.role) return [];
+    return MENU_ITEMS.filter(item => item.roles.includes(profile.role));
+  }, [profile?.role]);
+
+  // ── Default to the first visible item once profile loads ──
+  useEffect(() => {
+    if (!activeMenu && visibleItems.length > 0) {
+      setActiveMenu(visibleItems[0].id);
+    }
+  }, [activeMenu, visibleItems]);
+
   const ActiveComponent = useMemo(() => {
     const item = MENU_ITEMS.find(i => i.id === activeMenu);
     return item?.component || null;
@@ -55,17 +64,22 @@ const Dashboard = ({ setUser }) => {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
-  // ── Fetch profile ──
+  // ── Fetch profile (uses the real endpoint) ──
   const fetchProfile = useCallback(async () => {
     try {
-      const res = await fetch('/api/dashboard/profile', { credentials: 'include' });
+      const res = await fetch('/api/profile', { credentials: 'include' });
       if (!res.ok) {
-        if (res.status === 401) navigate('/admin');
-        throw new Error('Failed to fetch');
+        if (res.status === 401 || res.status === 403) {
+          navigate('/admin');
+          return;
+        }
+        throw new Error('Failed to fetch profile');
       }
-      setProfile(await res.json());
+      const data = await res.json();
+      setProfile(data.user);
     } catch (err) {
       console.error('Profile error:', err);
+      navigate('/admin');
     } finally {
       setLoading(false);
     }
@@ -91,6 +105,11 @@ const Dashboard = ({ setUser }) => {
   // ── Loading ──
   if (loading) return <div className="dashboard-status">Loading dashboard...</div>;
 
+  // Edge case: profile loaded but no accessible items (misconfigured role)
+  if (!visibleItems.length) {
+    return <div className="dashboard-status">No modules available for your role.</div>;
+  }
+
   return (
     <div className={`dashboard ${theme}`}>
       {/* ── Mobile Top Bar ── */}
@@ -106,11 +125,11 @@ const Dashboard = ({ setUser }) => {
       {/* ── Sidebar ── */}
       <aside className={`sidebar ${mobileOpen ? 'sidebar-open' : ''}`}>
         <div className="sidebar-header">
-          <h2>Dashboard</h2>
+          <h2>GradeSeal</h2>
         </div>
 
         <nav>
-          {MENU_ITEMS.map(({ id, label, icon: Icon }) => (
+          {visibleItems.map(({ id, label, icon: Icon }) => (
             <button
               key={id}
               className={`sidebar-item ${activeMenu === id ? 'active' : ''}`}
@@ -150,6 +169,10 @@ const Dashboard = ({ setUser }) => {
             {ActiveComponent && <ActiveComponent />}
           </div>
         </section>
+
+          <footer className="dashboard-footer">
+          <p>© {new Date().getFullYear()} GradeSeal. All rights reserved.</p>
+        </footer>
       </main>
     </div>
   );

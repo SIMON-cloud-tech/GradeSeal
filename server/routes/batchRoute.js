@@ -2,6 +2,8 @@
 const express = require('express');
 const multer = require('multer');
 const router = express.Router();
+const authMiddleware = require('../middleware/authMiddleware');
+const requireRole = require('../middleware/requireRole');
 
 const { createBatch, getBatches, updateBatchStatus } = require('../controllers/batchController');
 const { assignSampleBag, sampleBatch } = require('../controllers/sampleController');
@@ -10,23 +12,32 @@ const { getPrintManifest, getLabelsPdf, getQrLabels, markPrinted } = require('..
 
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB
+  limits: { fileSize: 5 * 1024 * 1024 },
 });
 
+// Every route here requires auth
+router.use(authMiddleware);
+
+// ── Batches ──
 router.route('/')
-  .get(getBatches)
-  .post(createBatch);
+  .get(getBatches)                                            // anyone authenticated can read
+  .post(requireRole('ceo', 'qa', 'operator'), createBatch);   // only staff can create
 
 router.route('/:id/status')
-  .put(updateBatchStatus);
+  .put(requireRole('ceo', 'qa'), updateBatchStatus);          // only CEO/QA can recall
 
-router.post('/:id/assign-sample', assignSampleBag);              // click "Sample": draw the bag
-router.post('/:id/sample', upload.single('photo'), sampleBatch); // click "Save Results"
-router.post('/:id/approve', approveBatch);                       // click "Approve": COA PDF
+// ── Sampling ──
+// FIX: Path comes FIRST, then middleware
+router.post('/:id/assign-sample', requireRole('ceo', 'qa', 'operator'), assignSampleBag);
+router.post('/:id/sample', requireRole('ceo', 'qa', 'operator'), upload.single('photo'), sampleBatch);
 
-router.get('/:id/manifest', getPrintManifest);                   // what will be printed (ids only)
-router.get('/:id/labels', getLabelsPdf);                         // QR label sheet PDF, generated on the fly
-router.get('/:id/qr-labels', getQrLabels);                       // same QRs as JSON (optional)
-router.patch('/:id/printed', markPrinted);                       // after printing
+// ── Approvals ──
+router.post('/:id/approve', requireRole('ceo', 'qa'), approveBatch);
+
+// ── Printing ──
+router.get('/:id/manifest', requireRole('ceo', 'qa', 'operator'), getPrintManifest);
+router.get('/:id/labels', requireRole('ceo', 'qa', 'operator'), getLabelsPdf);
+router.get('/:id/qr-labels', requireRole('ceo', 'qa', 'operator'), getQrLabels);
+router.patch('/:id/printed', requireRole('ceo', 'qa', 'operator'), markPrinted);
 
 module.exports = router;

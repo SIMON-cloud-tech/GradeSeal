@@ -5,8 +5,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiPrinter, FiCheckCircle, FiFileText, FiTag, FiDownload } from 'react-icons/fi';
 import '../css/PrintQueueDetailPage.css';
 
-const COA_API = 'http://localhost:5000/api/coas';
-const BATCH_API = 'http://localhost:5000/api/batches';
+// Define the API endpoints for fetching COA and batch data.
+//These are relative paths to the server's API endpoints.
+const COA_API = '/api/coas';
+const BATCH_API = '/api/batches';
 
 const PARAMS = [
   ['gelThickness', 'Gel Thickness'],
@@ -59,8 +61,8 @@ const PrintQueueDetailPage = () => {
       setError(null);
       try {
         const [resCoa, resManifest] = await Promise.all([
-          fetch(`${COA_API}/${coaId}`),
-          fetch(`${BATCH_API}/${coaId}/manifest`),
+          fetch(`${COA_API}/${coaId}`, { credentials: 'include' }),
+          fetch(`${BATCH_API}/${coaId}/manifest`, { credentials: 'include' }),
         ]);
         if (!resCoa.ok) throw new Error(await readError(resCoa, 'Failed to fetch COA details'));
         if (!resManifest.ok) throw new Error(await readError(resManifest, 'Failed to fetch print manifest'));
@@ -89,7 +91,7 @@ const PrintQueueDetailPage = () => {
     if (!window.confirm('Confirm that the labels were printed?')) return;
     setMarking(true);
     try {
-      const res = await fetch(`${BATCH_API}/${coaId}/printed`, { method: 'PATCH' });
+      const res = await fetch(`${BATCH_API}/${coaId}/printed`, { method: 'PATCH', credentials: 'include' });
       if (!res.ok) throw new Error(await readError(res, 'Failed to mark as printed'));
       setData((prev) => ({ ...prev, status: 'Printed', lastPrintedAt: new Date().toISOString() }));
     } catch (err) {

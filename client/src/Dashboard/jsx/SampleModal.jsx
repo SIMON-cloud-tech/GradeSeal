@@ -7,7 +7,9 @@ import { useState, useMemo } from 'react';
 import { FiX, FiCheckCircle, FiAlertCircle, FiCamera } from 'react-icons/fi';
 import '../css/Modal.css'; // Make sure this matches your CSS file name
 
-const BATCH_API = 'http://localhost:5000/api/batches';
+// Define the API endpoint for batch operations. 
+// This is a relative path to the server's API endpoint.
+const BATCH_API = '/api/batches';
 
 const PARAM_FIELDS = [
   { key: 'gelThickness', label: 'Gel Thickness',     kind: 'enum', options: ['', '+++', '++', '+'] },

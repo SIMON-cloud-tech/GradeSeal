@@ -1,11 +1,11 @@
 // ──────────────────────────────────────────────────────────────
 //  src/Components/Dashboard/jsx/Auth.jsx
-//  Ondrivo — Industrial Process Engineering Authentication
+//  GradeSeal — Batch Quality & Traceability Authentication
 // ──────────────────────────────────────────────────────────────
 
 import { useNavigate } from 'react-router-dom';
 import { useState, useCallback } from 'react';
-import { FiEye, FiEyeOff, FiCpu } from 'react-icons/fi';
+import { FiEye, FiEyeOff, FiShield } from 'react-icons/fi'; // Changed FiCpu to FiShield for a "trust/quality" vibe
 import '../css/Auth.css';
 
 // ── Constants ──
@@ -79,26 +79,25 @@ const Auth = ({ setUser }) => {
       {/* ── Left Panel ── */}
       <div className="auth-left">
         <div className="logo-container">
-          <FiCpu size={72} color="#C08B3E" />
+          <FiShield size={72} color="#C08B3E" />
         </div>
-        <h1>Ondrivo</h1>
+        <h1>GradeSeal</h1>
         <p>
-          Industrial software built to last, not to disappear. Laboratory
-          Information Management Systems, Process Optimization Dashboards, and 
-          custom engineering solutions with precision, accountability, and 
-          long‑term support.
+          Secure digital Certificates of Analysis and cryptographic traceability 
+          for industrial agriculture. Built to guarantee batch quality, 
+          compliance, and end-to-end supply chain integrity.
         </p>
-        <p className="auth-tagline">🧪 Chemistry + Code. Built to last.</p>
+        <p className="auth-tagline">🛡️ Quality. Verified. Sealed.</p>
       </div>
 
       {/* ── Right Panel ── */}
       <div className="auth-right">
         <div className="auth-form">
-          <h2>{isLogin ? 'Welcome Back' : 'Create Account'}</h2>
+          <h2>{isLogin ? 'Welcome Back' : 'Create Admin Account'}</h2>
           <p className="auth-subtitle">
             {isLogin 
-              ? 'Access your Ondrivo dashboard' 
-              : 'Start managing your laboratory and industrial projects'}
+              ? 'Access the GradeSeal dashboard' 
+              : 'Initialize the primary administrator account'}
           </p>
 
           <form onSubmit={handleSubmit}>
@@ -123,7 +122,7 @@ const Auth = ({ setUser }) => {
                 name="email"
                 value={form.email}
                 onChange={handleChange}
-                placeholder="john@example.com"
+                placeholder="admin@gradeseal.com"
                 required
               />
             </div>
@@ -168,9 +167,9 @@ const Auth = ({ setUser }) => {
 
           <p className="auth-toggle">
             {isLogin ? (
-              <>Don't have an account? <span onClick={toggleMode}>Sign up</span></>
+              <>Need to set up a new system? <span onClick={toggleMode}>Initialize</span></>
             ) : (
-              <>Already signed in? <span onClick={toggleMode}>Log in</span></>
+              <>Already registered? <span onClick={toggleMode}>Log in</span></>
             )}
           </p>
         </div>

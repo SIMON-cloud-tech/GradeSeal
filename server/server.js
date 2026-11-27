@@ -17,6 +17,10 @@ const batchRoutes = require('./routes/batchRoute');
 const specificationRoutes = require('./routes/specificationRoute');
 const coaRoutes = require('./routes/coaRoute');
 const scanLogRoutes = require('./routes/scanRoute');
+const userRoutes = require('./routes/userRoute');
+const verifyRoute = require('./routes/verifyRoute');
+
+
 
 // ─── APP SETUP ───
 const app = express();
@@ -49,12 +53,14 @@ app.use('/uploads', (req, res, next) => {
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ─── API ROUTES ───
+app.use('/api/verify', verifyRoute);
 app.use('/api', authRoutes);
 app.use('/api/reset', resetRoutes);
 app.use('/api/batches', batchRoutes);                 // mounted ONCE
 app.use('/api/specifications', specificationRoutes);
 app.use('/api/coas', coaRoutes);
 app.use('/api/scanlogs', scanLogRoutes);              // matches the URL used by ScanLogs.jsx
+app.use('/api/users', userRoutes);
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
@@ -76,8 +82,15 @@ app.use('/api', (req, res) => {
 app.use(errorHandler);
 
 // ─── START SERVER ───
-connectDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`🚀 Backend running on http://localhost:${PORT}`);
+if (process.env.NODE_ENV !== 'test') {
+  connectDB().then(() => {
+    console.log(`✅ Connected to MongoDB at ${process.env.MONGO_URI}`);
+    if (require.main === module) { // Only start the server if this file is run directly
+      app.listen(PORT, () => {
+        console.log(`🚀 Backend running on http://localhost:${PORT}`);
+      });
+    }
   });
-});
+}
+
+module.exports = app; // Export the app for testing purposes

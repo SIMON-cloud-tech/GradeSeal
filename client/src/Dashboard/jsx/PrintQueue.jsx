@@ -5,7 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { FiSearch } from 'react-icons/fi';
 import '../css/PrintQueue.css';
 
-const API_URL = 'http://localhost:5000/api/coas';
+//Define the api base to use when fetching the coas from the server.
+//This is a relative path to the server's API endpoint.
+const API_URL = '/api/coas';
 
 const PrintQueue = () => {
   const navigate = useNavigate();
@@ -20,7 +22,7 @@ const PrintQueue = () => {
     const fetchCOAs = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`${API_URL}?search=${encodeURIComponent(search)}`);
+        const res = await fetch(`${API_URL}?search=${encodeURIComponent(search)}`, { credentials: 'include' });
         if (!res.ok) throw new Error('Server responded with an error');
         const data = await res.json();
         if (!cancelled) setCoas(data);

@@ -3,6 +3,10 @@
 const crypto = require('crypto');
 
 const listBagIds = (startingBagId, numberOfBags) => {
+  if (!Number.isInteger(numberOfBags) || numberOfBags <= 0) {
+    throw new Error('numberOfBags must be a positive integer');
+  }
+
   const prefix = startingBagId.replace(/\d+$/, '');
   const digits = startingBagId.slice(prefix.length);
   const start = parseInt(digits, 10);

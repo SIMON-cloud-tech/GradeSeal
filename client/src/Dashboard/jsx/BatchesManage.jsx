@@ -5,8 +5,9 @@ import { FiPlus, FiX, FiChevronLeft, FiChevronRight, FiSearch, FiCheckCircle } f
 import SampleModal from './SampleModal.jsx';
 import '../css/BatchesManage.css';
 
-const BATCH_API = 'http://localhost:5000/api/batches';
-const SPEC_API = 'http://localhost:5000/api/specifications';
+//Define the api base to use when fetching the batches and specifications from the server.
+const BATCH_API = '/api/batches';
+const SPEC_API = '/api/specifications';
 
 const INITIAL_FORM = {
   productName: '', palletNumber: '', startingBagId: '', batchNo: '', lotNo: '', origin: '', numberOfBags: '', comments: '',
@@ -120,10 +121,11 @@ const BatchesManage = () => {
     const requestId = ++latestRequest.current;
     dispatch({ type: 'SET_LOADING', payload: true });
     try {
-      const res = await fetch(`${BATCH_API}?search=${encodeURIComponent(searchQuery)}`);
+      const res = await fetch(`${BATCH_API}?search=${encodeURIComponent(searchQuery)}`,
+      { credentials: 'include' });
       if (!res.ok) throw new Error('Failed to fetch batches');
       const data = await res.json();
-      if (requestId !== latestRequest.current) return; // a newer request is in flight
+      if (requestId !== latestRequest.current) return; 
       dispatch({ type: 'SET_BATCHES', payload: data });
     } catch (err) {
       if (requestId !== latestRequest.current) return;
@@ -138,8 +140,8 @@ const BatchesManage = () => {
   const fetchSpecs = useCallback(async () => {
     try {
       const [resClients, resStandards] = await Promise.all([
-        fetch(`${SPEC_API}?type=client`),
-        fetch(`${SPEC_API}?type=government`)
+        fetch(`${SPEC_API}?type=client`, { credentials: 'include' }),
+        fetch(`${SPEC_API}?type=government`, { credentials: 'include' })
       ]);
       if (resClients.ok) dispatch({ type: 'SET_CLIENTS', payload: await resClients.json() });
       if (resStandards.ok) dispatch({ type: 'SET_STANDARDS', payload: await resStandards.json() });
@@ -163,6 +165,7 @@ const BatchesManage = () => {
       const res = await fetch(BATCH_API, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify(batchData),
       });
       if (!res.ok) throw new Error(await readError(res, 'Failed to create batch'));
@@ -181,7 +184,8 @@ const BatchesManage = () => {
     if (busyBatchId) return;
     setBusyBatchId(batch._id);
     try {
-      const res = await fetch(`${BATCH_API}/${batch._id}/assign-sample`, { method: 'POST' });
+      const res = await fetch(`${BATCH_API}/${batch._id}/assign-sample`, 
+        { method: 'POST', credentials: 'include' });
       if (!res.ok) throw new Error(await readError(res, 'Could not draw a bag for sampling'));
       const batchWithBag = await res.json(); // includes sampledBagId + populated spec limits
       setSelectedBatchForSample(batchWithBag);
@@ -204,7 +208,9 @@ const BatchesManage = () => {
     if (busyBatchId) return;
     setBusyBatchId(batch._id);
     try {
-      const res = await fetch(`${BATCH_API}/${batch._id}/approve`, { method: 'POST' });
+      const res = await fetch(`${BATCH_API}/${batch._id}/approve`, 
+        { method: 'POST', 
+        credentials: 'include' });
       if (!res.ok) throw new Error(await readError(res, 'Failed to approve batch'));
       await fetchBatches(state.search);
     } catch (err) {

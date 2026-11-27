@@ -3,7 +3,9 @@ import { useState, useEffect, useMemo } from 'react';
 import { FiSearch, FiMapPin, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import '../css/Scanlogs.css';
 
-const API_URL = 'http://localhost:5000/api/scanlogs';
+// Define the API endpoint for fetching scan logs. 
+// This is a relative path to the server's API endpoint.
+const API_URL = '/api/scanlogs';
 const ROWS_PER_PAGE = 10;
 
 // Inline colours so this works without touching Scanlogs.css
@@ -27,7 +29,7 @@ const ScanLogs = () => {
     const fetchLogs = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`${API_URL}?search=${encodeURIComponent(search)}`);
+        const res = await fetch(`${API_URL}?search=${encodeURIComponent(search)}`, { credentials: 'include' });
         if (!res.ok) throw new Error('Failed to fetch scan logs');
         const data = await res.json();
         if (!cancelled) setLogs(data);

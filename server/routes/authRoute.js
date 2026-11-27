@@ -9,8 +9,9 @@ const router = express.Router();
 // Limits repeated login attempts per IP — slows down credential-stuffing/brute-force attacks.
 // 10 attempts per 15 min is generous for a real user, painful for a script.
 const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
+  windowMs: 60 * 1000,
   max: 10,
+  skip: () => process.env.NODE_ENV === 'test',
   message: { message: 'Too many login attempts. Please try again later.' },
   standardHeaders: true,
   legacyHeaders: false

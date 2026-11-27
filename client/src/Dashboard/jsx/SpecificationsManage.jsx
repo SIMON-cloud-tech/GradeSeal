@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useMemo, memo, useReducer } from 'rea
 import { FiPlus, FiX, FiEdit, FiTrash2, FiSearch, FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import '../css/SpecificationsManage.css';
 
-const API_URL = 'http://localhost:5000/api/specifications';
+const API_URL = '/api/specifications';
 
 // ── Constants ──
 const ROWS_PER_PAGE = 10;
@@ -199,15 +199,14 @@ const SpecificationsManage = () => {
   });
 
   const [form, formDispatch] = useReducer(formReducer, INITIAL_GOV_FORM);
-  const [apiError, setApiError] = useState(null);
 
-  // ── API: Fetch Data (Graceful Error Handling) ──
+  // ── API: Fetch Data (with credentials) ──
   const fetchData = useCallback(async () => {
     dispatch({ type: 'SET_LOADING', payload: true });
     try {
       const [resGov, resClient] = await Promise.all([
-        fetch(`${API_URL}?type=government`),
-        fetch(`${API_URL}?type=client`)
+        fetch(`${API_URL}?type=government`, { credentials: 'include' }),
+        fetch(`${API_URL}?type=client`, { credentials: 'include' })
       ]);
       
       if (!resGov.ok || !resClient.ok) throw new Error('Server responded with an error');
@@ -217,12 +216,8 @@ const SpecificationsManage = () => {
 
       dispatch({ type: 'SET_STANDARDS', payload: govData });
       dispatch({ type: 'SET_CLIENT_SPECS', payload: clientData });
-      setApiError(null); // Clear any previous errors if successful
     } catch (err) {
-      // Log the real error for debugging
       console.error("Failed to connect to backend:", err);
-      
-      // Fallback to empty arrays so the UI shows "No standards/client specs found"
       dispatch({ type: 'SET_STANDARDS', payload: [] });
       dispatch({ type: 'SET_CLIENT_SPECS', payload: [] });
     } finally {
@@ -268,6 +263,7 @@ const SpecificationsManage = () => {
     dispatch({ type: 'SET_CONFIRM_DELETE', payload: null });
   }, []);
 
+  // ── API: Submit (with credentials) ──
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
     const isEdit = state.modal.mode === 'edit';
@@ -278,6 +274,7 @@ const SpecificationsManage = () => {
       const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify(form)
       });
       
@@ -289,11 +286,11 @@ const SpecificationsManage = () => {
       await fetchData(); 
       closeModal();
     } catch (err) {
-      // Real validation errors (e.g. missing fields) SHOULD be shown via alert or banner
       alert(err.message);
     }
   }, [form, state.modal, fetchData, closeModal]);
 
+  // ── API: Delete (with credentials) ──
   const handleDelete = useCallback((type) => async (id) => {
     if (state.confirmDeleteId !== id) {
       dispatch({ type: 'SET_CONFIRM_DELETE', payload: id });
@@ -301,7 +298,10 @@ const SpecificationsManage = () => {
     }
 
     try {
-      const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${API_URL}/${id}`, { 
+        method: 'DELETE',
+        credentials: 'include'
+      });
       if (!res.ok) throw new Error('Failed to delete specification');
       
       await fetchData(); 
